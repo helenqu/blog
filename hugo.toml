@@ -16,3 +16,7 @@ theme = 'shibui'
   customCSS = ["math.css"]
   author = "Helen Qu"
   author_url = "https://helenqu.com"
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

@@ -1,0 +1,50 @@
+/* Custom styles */
+.author {
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Collapsible TOC */
+.toc details {
+  cursor: pointer;
+}
+
+.toc summary {
+  font-weight: bold;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.toc summary::before {
+  content: "▶";
+  font-size: 0.7em;
+  transition: transform 0.2s ease;
+}
+
+.toc details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.toc summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc .toc-content {
+  margin-top: var(--spacing-sm);
+}
+
+/* Site icon in header */
+.site-icon {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
+  margin: 0 0 0 0;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+}
+

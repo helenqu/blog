@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=blog/livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>RL&#39;s Deadly Triad Meets Optimization | helen qu</title>
+<link rel="icon" type="image/png" href="/blog/favicon.png">
+<link rel="icon" type="image/webp" href="/blog/favicon.webp">
+<link rel="apple-touch-icon" href="/blog/favicon.png">
+
+
+
+    <link rel="stylesheet" href="/blog/css/main.css">
+    <link rel="stylesheet" href="/blog/css/custom.css">
+
+
+<script src="/blog/js/main.js"></script>
+
+
+  <style>
+mjx-container {
+  font-size: 90% !important;
+}
+#mathjax-macros, .mathjax-macros {
+  display: none !important;
+}
+</style>
+<script>
+MathJax = {
+  loader: {load: ['[tex]/mathtools']},
+  tex: {
+    packages: {'[+]': ['mathtools']},
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    processEnvironments: true
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  },
+  startup: {
+    pageReady: () => {
+      
+      const macroElements = [
+        document.getElementById('mathjax-macros'),
+        ...document.querySelectorAll('.mathjax-macros')
+      ].filter(Boolean);
+      
+      if (macroElements.length > 0) {
+        return MathJax.typesetPromise(macroElements).then(() => {
+          return MathJax.typesetPromise();
+        });
+      }
+      return MathJax.typesetPromise();
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+
+</head>
+<body>
+  <div id="mathjax-macros">\(
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\avec}{\vec{a}}
+\newcommand{\bvec}{\vec{b}}
+\newcommand{\cvec}{\vec{c}}
+\newcommand{\dvec}{\vec{d}}
+\newcommand{\evec}{\vec{e}}
+\newcommand{\fvec}{\vec{f}}
+\newcommand{\gvec}{\vec{g}}
+\newcommand{\hvec}{\vec{h}}
+\newcommand{\ivec}{\vec{i}}
+\newcommand{\jvec}{\vec{j}}
+\newcommand{\kvec}{\vec{k}}
+\newcommand{\lvec}{\vec{l}}
+\newcommand{\mvec}{\vec{m}}
+\newcommand{\nvec}{\vec{n}}
+\newcommand{\ovec}{\vec{o}}
+\newcommand{\pvec}{\vec{p}}
+\newcommand{\qvec}{\vec{q}}
+\newcommand{\rvec}{\vec{r}}
+\newcommand{\svec}{\vec{s}}
+\newcommand{\tvec}{\vec{t}}
+\newcommand{\uvec}{\vec{u}}
+\newcommand{\vvec}{\vec{v}}
+\newcommand{\wvec}{\vec{w}}
+\newcommand{\xvec}{\vec{x}}
+\newcommand{\yvec}{\vec{y}}
+\newcommand{\zvec}{\vec{z}}
+
+\newcommand{\abf}{\mathbf{a}}
+\newcommand{\bbbf}{\mathbf{b}}
+\newcommand{\cbf}{\mathbf{c}}
+\newcommand{\dbf}{\mathbf{d}}
+\newcommand{\ebf}{\mathbf{e}}
+\newcommand{\fbf}{\mathbf{f}}
+\newcommand{\gbf}{\mathbf{g}}
+\newcommand{\hbf}{\mathbf{h}}
+\newcommand{\ibf}{\mathbf{i}}
+\newcommand{\jbf}{\mathbf{j}}
+\newcommand{\kbf}{\mathbf{k}}
+\newcommand{\lbf}{\mathbf{l}}
+\newcommand{\mbf}{\mathbf{m}}
+\newcommand{\nbf}{\mathbf{n}}
+\newcommand{\obf}{\mathbf{o}}
+\newcommand{\pbf}{\mathbf{p}}
+\newcommand{\qbf}{\mathbf{q}}
+\newcommand{\rbf}{\mathbf{r}}
+\newcommand{\sbf}{\mathbf{s}}
+\newcommand{\tbf}{\mathbf{t}}
+\newcommand{\ubf}{\mathbf{u}}
+\newcommand{\vbf}{\mathbf{v}}
+\newcommand{\wbf}{\mathbf{w}}
+\newcommand{\xbf}{\mathbf{x}}
+\newcommand{\ybf}{\mathbf{y}}
+\newcommand{\zbf}{\mathbf{z}}
+
+\newcommand{\alphabf}{\boldsymbol{\alpha}}
+\newcommand{\Betabf}{\boldsymbol{\Beta}}
+\newcommand{\betabf}{\boldsymbol{\beta}}
+\newcommand{\Gammabf}{\boldsymbol{\Gamma}}
+\newcommand{\gammabf}{\boldsymbol{\gamma}}
+\newcommand{\Deltabf}{\boldsymbol{\Delta}}
+\newcommand{\deltabf}{\boldsymbol{\delta}}
+\newcommand{\epsilontbf}{\boldsymbol{\epsilon}}
+\newcommand{\varepsilontbf}{\boldsymbol{\varepsilon}}
+\newcommand{\zetabf}{\boldsymbol{\zeta}}
+\newcommand{\etabf}{\boldsymbol{\eta}}
+\newcommand{\Thetabf}{\boldsymbol{\Theta}}
+\newcommand{\thetabf}{\boldsymbol{\theta}}
+\newcommand{\iotabf}{\boldsymbol{\iota}}
+\newcommand{\kappabf}{\boldsymbol{\kappa}}
+\newcommand{\Lambdabf}{\boldsymbol{\Lambda}}
+\newcommand{\lambdabf}{\boldsymbol{\lambda}}
+\newcommand{\mubf}{\boldsymbol{\mu}}
+\newcommand{\nubf}{\boldsymbol{\nu}}
+\newcommand{\Xibf}{\boldsymbol{\Xi}}
+\newcommand{\xibf}{\boldsymbol{\xi}}
+\newcommand{\Pibf}{\boldsymbol{\Pi}}
+\newcommand{\pibf}{\boldsymbol{\pi}}
+\newcommand{\rhobf}{\boldsymbol{\rho}}
+\newcommand{\Sigmabf}{\boldsymbol{\Sigma}}
+\newcommand{\sigmabf}{\boldsymbol{\sigma}}
+\newcommand{\taubf}{\boldsymbol{\tau}}
+\newcommand{\Upsilonbf}{\boldsymbol{\Upsilon}}
+\newcommand{\upsilonbf}{\boldsymbol{\upsilon}}
+\newcommand{\Phibf}{\boldsymbol{\Phi}}
+\newcommand{\phibf}{\boldsymbol{\phi}}
+\newcommand{\varphibf}{\boldsymbol{\varphi}}
+\newcommand{\chibf}{\boldsymbol{\chi}}
+\newcommand{\Psibf}{\boldsymbol{\Psi}}
+\newcommand{\psibf}{\boldsymbol{\psi}}
+\newcommand{\Omegabf}{\boldsymbol{\Omega}}
+\newcommand{\omegabf}{\boldsymbol{\omega}}
+
+\newcommand{\Abf}{\mathbf{A}}
+\newcommand{\Bbf}{\mathbf{B}}
+\newcommand{\Cbf}{\mathbf{C}}
+\newcommand{\Dbf}{\mathbf{D}}
+\newcommand{\Ebf}{\mathbf{E}}
+\newcommand{\Fbf}{\mathbf{F}}
+\newcommand{\Gbf}{\mathbf{G}}
+\newcommand{\Hbf}{\mathbf{H}}
+\newcommand{\Ibf}{\mathbf{I}}
+\newcommand{\Jbf}{\mathbf{J}}
+\newcommand{\Kbf}{\mathbf{K}}
+\newcommand{\Lbf}{\mathbf{L}}
+\newcommand{\Mbf}{\mathbf{M}}
+\newcommand{\Nbf}{\mathbf{N}}
+\newcommand{\Obf}{\mathbf{O}}
+\newcommand{\Pbf}{\mathbf{P}}
+\newcommand{\Qbf}{\mathbf{Q}}
+\newcommand{\Rbf}{\mathbf{R}}
+\newcommand{\Sbf}{\mathbf{S}}
+\newcommand{\Tbf}{\mathbf{T}}
+\newcommand{\Ubf}{\mathbf{U}}
+\newcommand{\Vbf}{\mathbf{V}}
+\newcommand{\Wbf}{\mathbf{W}}
+\newcommand{\Xbf}{\mathbf{X}}
+\newcommand{\Ybf}{\mathbf{Y}}
+\newcommand{\Zbf}{\mathbf{Z}}
+
+% mathsf letters
+\newcommand{\asf}{\mathsf{a}}
+\newcommand{\bsf}{\mathsf{b}}
+\newcommand{\csf}{\mathsf{c}}
+\newcommand{\dsf}{\mathsf{d}}
+\newcommand{\esf}{\mathsf{e}}
+\newcommand{\fsf}{\mathsf{f}}
+\newcommand{\gsf}{\mathsf{g}}
+\newcommand{\hsf}{\mathsf{h}}
+\newcommand{\isf}{\mathsf{i}}
+\newcommand{\jsf}{\mathsf{j}}
+\newcommand{\ksf}{\mathsf{k}}
+\newcommand{\lsf}{\mathsf{l}}
+\newcommand{\msf}{\mathsf{m}}
+\newcommand{\nsf}{\mathsf{n}}
+\newcommand{\osf}{\mathsf{o}}
+\newcommand{\psf}{\mathsf{p}}
+\newcommand{\qsf}{\mathsf{q}}
+\newcommand{\rsf}{\mathsf{r}}
+\newcommand{\ssf}{\mathsf{s}}
+\newcommand{\tsf}{\mathsf{t}}
+\newcommand{\usf}{\mathsf{u}}
+\newcommand{\vsf}{\mathsf{v}}
+\newcommand{\wsf}{\mathsf{w}}
+\newcommand{\xsf}{\mathsf{x}}
+\newcommand{\ysf}{\mathsf{y}}
+\newcommand{\zsf}{\mathsf{z}}
+
+\newcommand{\Asf}{\mathsf{A}}
+\newcommand{\Bsf}{\mathsf{B}}
+\newcommand{\Csf}{\mathsf{C}}
+\newcommand{\Dsf}{\mathsf{D}}
+\newcommand{\Esf}{\mathsf{E}}
+\newcommand{\Fsf}{\mathsf{F}}
+\newcommand{\Gsf}{\mathsf{G}}
+\newcommand{\Hsf}{\mathsf{H}}
+\newcommand{\Isf}{\mathsf{I}}
+\newcommand{\Jsf}{\mathsf{J}}
+\newcommand{\Ksf}{\mathsf{K}}
+\newcommand{\Lsf}{\mathsf{L}}
+\newcommand{\Msf}{\mathsf{M}}
+\newcommand{\Nsf}{\mathsf{N}}
+\newcommand{\Osf}{\mathsf{O}}
+\newcommand{\Psf}{\mathsf{P}}
+\newcommand{\Qsf}{\mathsf{Q}}
+\newcommand{\Rsf}{\mathsf{R}}
+\newcommand{\Ssf}{\mathsf{S}}
+\newcommand{\Tsf}{\mathsf{T}}
+\newcommand{\Usf}{\mathsf{U}}
+\newcommand{\Vsf}{\mathsf{V}}
+\newcommand{\Wsf}{\mathsf{W}}
+\newcommand{\Xsf}{\mathsf{X}}
+\newcommand{\Ysf}{\mathsf{Y}}
+\newcommand{\Zsf}{\mathsf{Z}}
+
+% mathbb letters
+\newcommand{\Abb}{\mathbb{A}}
+\newcommand{\Cbb}{\mathbb{C}}
+\newcommand{\Dbb}{\mathbb{D}}
+\newcommand{\Ebb}{\mathbb{E}}
+\newcommand{\Fbb}{\mathbb{F}}
+\newcommand{\Gbb}{\mathbb{G}}
+\newcommand{\Hbb}{\mathbb{H}}
+\newcommand{\Ibb}{\mathbb{I}}
+\newcommand{\Jbb}{\mathbb{J}}
+\newcommand{\Kbb}{\mathbb{K}}
+\newcommand{\Lbb}{\mathbb{L}}
+\newcommand{\Mbb}{\mathbb{M}}
+\newcommand{\Nbb}{\mathbb{N}}
+\newcommand{\Obb}{\mathbb{O}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\Qbb}{\mathbb{Q}}
+\newcommand{\Rbb}{\mathbb{R}}
+\newcommand{\Sbb}{\mathbb{S}}
+\newcommand{\Tbb}{\mathbb{T}}
+\newcommand{\Ubb}{\mathbb{U}}
+\newcommand{\Vbb}{\mathbb{V}}
+\newcommand{\Wbb}{\mathbb{W}}
+\newcommand{\Xbb}{\mathbb{X}}
+\newcommand{\Ybb}{\mathbb{Y}}
+\newcommand{\Zbb}{\mathbb{Z}}
+
+% mathcal letters
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Bcal}{\mathcal{B}}
+\newcommand{\Ccal}{\mathcal{C}}
+\newcommand{\Dcal}{\mathcal{D}}
+\newcommand{\Ecal}{\mathcal{E}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Gcal}{\mathcal{G}}
+\newcommand{\Hcal}{\mathcal{H}}
+\newcommand{\Ical}{\mathcal{I}}
+\newcommand{\Jcal}{\mathcal{J}}
+\newcommand{\Kcal}{\mathcal{K}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Mcal}{\mathcal{M}}
+\newcommand{\Ncal}{\mathcal{N}}
+\newcommand{\Ocal}{\mathcal{O}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Qcal}{\mathcal{Q}}
+\newcommand{\Rcal}{\mathcal{R}}
+\newcommand{\Scal}{\mathcal{S}}
+\newcommand{\Tcal}{\mathcal{T}}
+\newcommand{\Ucal}{\mathcal{U}}
+\newcommand{\Vcal}{\mathcal{V}}
+\newcommand{\Wcal}{\mathcal{W}}
+\newcommand{\Xcal}{\mathcal{X}}
+\newcommand{\Ycal}{\mathcal{Y}}
+\newcommand{\Zcal}{\mathcal{Z}}
+
+% shorthands
+\newcommand{\constant}{\textnormal{constant}}
+% topology
+\newcommand{\scomp}[1]{#1^{\mathsf c}} % set complement
+\newcommand{\closure}[1]{\overline{#1}}
+
+\newcommand{\conv}{*}
+\newcommand{\circconv}{\circledast}
+\DeclareMathOperator{\affinehull}{aff}
+\DeclareMathOperator{\convexhull}{conv}
+\DeclareMathOperator{\conichull}{conic}
+\newcommand{\pdiv}[3][]{\operatorname{D}_{#1}\left(#2\:\vert\vert\:#3 \right)}
+\newcommand{\kldiv}[2]{\pdiv[\text{KL}]{#1}{#2}}
+\newcommand{\bigo}[1]{\mathcal{O}\left( #1 \right)}
+\newcommand{\littleo}[1]{o\left(#1 \right)}
+\newcommand{\LHS}{\operatorname{LHS}}
+\newcommand{\RHS}{\operatorname{RHS}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\posreals}{\reals^+}
+\newcommand{\nonnegreals}{\reals^{\geq 0}}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+
+% operators
+\newcommand{\textif}{\text{if}\ }
+\newcommand{\textelse}{\text{else}\ }
+%\DeclareMathOperator* is used for defining operators that have limits typeset beneath them instead of to the right (at least when in a display)
+\DeclareMathOperator*{\maximizeop}{maximize}
+\DeclareMathOperator*{\minimizeop}{minimize}
+\newcommand{\minimize}[1]{\minimizeop\limits_{#1}\ }
+\newcommand{\maximize}[1]{\maximizeop\limits_{#1}\ }
+\newcommand{\subjectto}{\text{subject to}\ }
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argsup}{\arg\!\sup}
+\DeclareMathOperator*{\arginf}{\arg\!\inf}
+% use \command* to get autoscaling with paired delimiter commands
+% the unstarred version takes an optional argument that can be \big, \Big, etc
+% WARNING: Mathjax has a bug where there is an extra s in DeclarePairedDelimiter
+% See: https://github.com/mathjax/MathJax/issues/2758
+\DeclarePairedDelimiters{\ceil}{\lceil}{\rceil} % requires mathtools package
+\DeclarePairedDelimiters{\floor}{\lfloor}{\rfloor} % requires mathtools package
+\newcommand{\inner}[3][]{\langle #2, #3 \rangle_{#1}}
+\DeclarePairedDelimiters{\abs}{\lvert}{\rvert}%
+\newcommand{\norm}[2][]{\lVert #2 \rVert_{#1}}
+\DeclarePairedDelimiters{\parens}{(}{)}
+\DeclarePairedDelimiters{\braks}{[}{]}
+\newcommand{\image}[1]{\operatorname{img}\parens*{#1}}
+\newcommand{\kernel}[1]{\operatorname{ker}\parens*{#1}}
+\newcommand{\diameter}[1]{\operatorname{diam}\parens*{#1}}
+\newcommand{\radius}[1]{\operatorname{radius}\parens*{#1}}
+\newcommand{\vecmat}[1]{\operatorname{vec}\parens*{#1}}
+\newcommand{\diag}[1]{\operatorname{diag}\parens*{#1}}
+\newcommand{\trace}[1]{\operatorname{tr}\parens*{#1}}
+% note: span is a latex primitive
+\newcommand{\vspan}[1]{\operatorname{span}\parens*{#1}}
+\newcommand{\rank}[1]{\operatorname{rank}\parens*{#1}}
+\newcommand{\sign}[1]{\operatorname{sign}\parens*{#1}}
+\newcommand{\tdef}{\triangleq}
+% middle bar, for use in delimited expressions like sets
+\newcommand{\mmid}{\ \middle| \ }
+%\newcommand{\set}[2][]{
+%    \ifx\\#1\\
+%        \{ #2 \}
+%    \else
+%        \{ #1 \mid  #2 \}
+%    \fi
+%}
+\newcommand{\onevec}{\mathbf{1}}
+\newcommand{\neginfty}{{-\infty}}
+% Positive semidefinite, positive definite cones
+\newcommand{\sym}[1]{\Sbb^{#1}}
+\newcommand{\psd}[1]{\Sbb^{#1}_+}
+\newcommand{\pd}[1]{\Sbb^{#1}_{++}}
+% up/down arrows for limits
+\newcommand{\dto}{\downarrow}
+\newcommand{\uto}{\uparrow}
+\newcommand{\T}{\top}
+\newcommand{\transpose}[1]{{#1}^\top}
+\newcommand{\inverse}{^{-1}}
+
+% unit ball
+\newcommand{\ball}{\mathbb{B}}
+% n-sphere
+\newcommand{\sphere}[1]{S^{#1 - 1}}
+
+% Manifolds
+\newcommand{\mnf}[1]{\manifold{#1}}
+%\newcommand{\manifold}[1]{\mathcal{\MakeUppercase{#1}}}
+\newcommand{\manifold}[1]{\mathcal{#1}}
+\newcommand{\Mmanifold}{\manifold{M}}
+\newcommand{\tangent}{\mathrm{T}} % Tangent space
+\newcommand{\cotangent}{\mathrm{T}^*} % Cotangent space
+\newcommand{\scalarfields}[1]{\mathfrak{F}(#1)}
+\newcommand{\vectorfields}[1]{\mathfrak{X}(#1)}
+
+% Probability
+% Random variables
+%\newcommand{\rv}[1]{\mathbf{\MakeUppercase{#1}}}
+\newcommand{\rv}[1]{\mathbf{#1}}
+\newcommand{\arv}{\rv{A}}
+\newcommand{\brv}{\rv{B}}
+\newcommand{\crv}{\rv{C}}
+\newcommand{\drv}{\rv{D}}
+\newcommand{\erv}{\rv{E}}
+\newcommand{\frv}{\rv{F}}
+\newcommand{\grv}{\rv{G}}
+\newcommand{\hrv}{\rv{H}}
+\newcommand{\irv}{\rv{I}}
+\newcommand{\jrv}{\rv{J}}
+\newcommand{\krv}{\rv{K}}
+\newcommand{\lrv}{\rv{L}}
+\newcommand{\mrv}{\rv{M}}
+\newcommand{\nrv}{\rv{N}}
+\newcommand{\orv}{\rv{O}}
+\newcommand{\prv}{\rv{P}}
+\newcommand{\qrv}{\rv{Q}}
+\newcommand{\rrv}{\rv{R}}
+\newcommand{\srv}{\rv{S}}
+\newcommand{\trv}{\rv{T}}
+\newcommand{\urv}{\rv{U}}
+\newcommand{\vrv}{\rv{V}}
+\newcommand{\wrv}{\rv{W}}
+\newcommand{\xrv}{\rv{X}}
+\newcommand{\yrv}{\rv{Y}}
+\newcommand{\zrv}{\rv{Z}}
+
+\newcommand{\xspace}{\Xcal}
+\newcommand{\yspace}{\Ycal}
+\newcommand{\zspace}{\Zcal}
+
+\newcommand\given[1][]{\:#1\vert\:}
+
+\newcommand{\simplex}{\Delta}
+\newcommand{\ev}[2][]{\mathbb{E}_{#1}\left[ #2\right]}
+\newcommand{\var}[2][]{\operatorname{Var}_{#1} \braks{#2}}
+\newcommand{\cov}[2]{\operatorname{Cov}\parens*{#1, #2}}
+\newcommand{\prob}[2][]{\mathbb{P}_{#1}\left(#2\right)}
+\newcommand{\ind}[1]{\unicode{x1D7D9} _{\left[ #1\right]}} % https://stackoverflow.com/questions/43886576/how-to-do-a-bold-1-mathbbm1-in-mathjax
+
+\DeclareMathOperator{\Binom}{Binom}
+\newcommand{\Normal}[1]{\operatorname{Normal}\parens*{#1}}
+\newcommand{\Bernoulli}[1]{\operatorname{Bernoulli}\parens*{#1}}
+\newcommand{\Binomial}[1]{\operatorname{Binomial}\parens*{#1}}
+\newcommand{\stdnormal}{\Normal{0, 1}}
+\newcommand{\stdmvnormal}{\Normal(0, I)}
+
+% convergence symbols
+\newcommand{\distto}{\overset{d}{\longrightarrow}}
+\newcommand{\asto}{\overset{a.s.}{\longrightarrow}}
+\newcommand{\probto}{\overset{\Pbb}{\longrightarrow}}
+\newcommand{\lpto}[1]{\overset{L^{#1}}{\longrightarrow}}
+\newcommand{\weakto}{\overset{\mathrm{weak}}{\longrightarrow}}
+\newcommand{\normto}{\overset{\mathrm{norm}}{\longrightarrow}}
+
+% convex analysis
+\newcommand{\gph}[1]{\operatorname{gph}\parens*{#1}}
+\newcommand{\epigraph}[1]{\operatorname{epi}\parens*{#1}}
+\newcommand{\domain}[1]{\operatorname{dom}\parens*{#1}}
+\newcommand{\intr}[1]{\mathrm{int}\left( #1 \right)}
+\newcommand{\clos}[1]{\mathrm{cl}\left( #1 \right)}
+
+% groups
+\newcommand{\orth}[1]{\mathsf{O}(#1)}
+\newcommand{\sorth}[1]{\mathsf{SO}(#1)}
+\newcommand{\sunit}[1]{\mathsf{SU}(#1)}
+\newcommand{\unit}[1]{\mathsf{U}(#1)}
+
+% derivatives
+\newcommand{\dd}[1][]{\mathrm{d}{#1}} % differential
+\newcommand{\diff}{\textnormal{d}}
+\newcommand{\deriv}{\textnormal{D}}
+\newcommand{\grad}{\nabla}
+\renewcommand{\dfrac}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pfrac}[2]{\frac{\partial #1}{\partial #2}}
+
+% matrices
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\Bmat}[1]{\begin{Bmatrix} #1 \end{Bmatrix}}
+
+\)</div>
+  <header>
+    <header>
+  <nav class="path-nav">
+    <ol>
+      
+  
+    
+  
+    
+  
+  <li>
+    /
+    <a href="/blog/">helen qu <img src="/blog/favicon.webp" alt="" class="site-icon"></a>
+    /
+  </li>
+
+  
+  <li>
+    
+    <a href="/blog/posts/">Posts</a>
+    /
+  </li>
+
+  
+  <li class="current">
+    
+    <a href="/blog/posts/deadly_triad/">RL&#39;s Deadly Triad Meets Optimization</a>
+    
+  </li>
+
+    </ol>
+  </nav>
+</header>
+
+
+
+
+  </header>
+  <main>
+    
+  <h1>RL&#39;s Deadly Triad Meets Optimization</h1>
+  <div class="author">by <a href="https://helenqu.com">Helen Qu</a></div>
+  
+  <div class="terms-list">
+    <ul>
+        <li><a href="/blog/tags/rl/">#rl</a></li>
+        <li><a href="/blog/tags/optimization/">#optimization</a></li>
+    </ul>
+  </div>
+
+
+
+  
+  
+  
+  
+    <nav class="toc">
+      <details>
+        <summary>Table of contents</summary>
+        <div class="toc-content">
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-adopt-deadly-triad-learning-paradigms">Why adopt Deadly Triad learning paradigms?</a></li>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#the-td-algorithm">The TD Algorithm</a></li>
+    <li><a href="#insights-from-optimization-theory">Insights from Optimization Theory</a></li>
+    <li><a href="#the-deadly-triad">The Deadly Triad</a>
+      <ul>
+        <li><a href="#no-bootstrapping">No bootstrapping</a></li>
+        <li><a href="#on-policy">On-policy</a></li>
+        <li><a href="#no-function-approximation">No function approximation</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+      </details>
+    </nav>
+  
+
+  
+  <div class="mathjax-macros">\(
+\newcommand{\phit}{\phi_t}
+\newcommand{\phinext}{\phi_{t+1}}
+\newcommand{\enext}{\ebf_{s_{t+1}}}
+\newcommand{\et}{\ebf_{s_t}}
+\newcommand{\gradV}{\nabla_{\theta} V_{\theta}}
+\newcommand{\V}{V_{\theta}}
+\newcommand{\snext}{s_{t+1}}
+\newcommand{\tstar}{\theta^\star}
+\newcommand{\itmtx}{(\Ibf - \eta \Abf)}
+\newcommand{\AMC}{\Abf_{\text{MC}}}
+\newcommand{\Aon}{\Abf_{\text{on}}}
+\newcommand{\Atab}{\Abf_{\text{tab}}}
+\newcommand{\dpi}{d_{\pi}}
+\newcommand{\Ppi}{P_{\pi}}
+\newcommand{\Tpi}{\Tcal_{\pi}}
+\)</div>
+
+<p>At this point, the so-called &ldquo;deadly triad&rdquo; of reinforcement learning has a status approaching that of folklore.
+This unsavory combination of <strong>function approximation, off-policy learning, and bootstrapping</strong> leads to unstable learning dynamics, even in the simplest of systems.
+Most RL enthusiasts are familiar with it, yet I&rsquo;ve seen surprisingly little discussion on its origins or first principles.
+I made this post to shed light on the deadly triad from the perspective of traditional optimization theory, with the goal of demonstrating that the underlying principles are nothing more exotic than well-established convergence guarantees for dynamical systems.</p>
+<h2 id="why-adopt-deadly-triad-learning-paradigms">Why adopt Deadly Triad learning paradigms?</h2>
+<p>If the deadly triad is so deadly, why not avoid it altogether?</p>
+<ul>
+<li><strong>Function approximation</strong> (e.g., via neural networks) allows us to parameterize very high-dimensional state-action spaces that would otherwise fall prey to the curse of dimensionality (e.g., <a href="https://arxiv.org/abs/1509.06461">DQN</a>). Of course, real-world state-action spaces (e.g., multimodal video + sensor inputs in self-driving) are fundamentally high-dimensional so this problem isn&rsquo;t going away.</li>
+<li><strong>Off-policy learning</strong> is a convenient way to disentangle the data source (behavior policy) from the target policy. Since the optimal policy for data generation will rarely coincide with the globally optimal policy due to the need for exploration, this allows the data generation policy to decouple from the learned optimal target policy. Additionally, true on-policy learning is difficult to implement in practice at scale in distributed setups.</li>
+<li>Finally, <strong>bootstrapping</strong> replaces the true return at state $s_t$, which requires rolling out a full trajectory to calculate, with a one-step rollout ($r_t$) and approximates the rest with the bootstrapped value function estimate $\V(\snext)$. This is a straightforward way to balance the trade-off between computational cost and accuracy.</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>We adopt the learning setup of <a href="http://leemon.com/papers/1995b2.pdf"><strong>Baird&rsquo;s counterexample</strong></a>, an embarrassingly simple concrete system (with no rewards!) that demonstrates the instability of semi-gradient Q-learning in the presence of the deadly triad. I&rsquo;ll introduce the relevant ingredients here.</p>
+<p>For simplicity, the value function is parameterized with a linear model $\V(s) = \transpose{\phi(s)} \theta$, where $\phi(s)$ is a feature vector corresponding to state $s$ and $\theta$ are the learned feature weights, which we wish to optimize with temporal difference (TD(0)) learning.</p>
+<p>The key result in Baird&rsquo;s counterexample is that learning diverges, even for such a conceptually simple system with no rewards, due to the deadly triad:</p>
+<ul>
+<li><strong>Function approximation</strong>: We use a linear parameterization for the value function $\V$.</li>
+<li><strong>Boostrapping</strong>: The TD family of methods uses bootstrapping to iteratively refine value function estimates (as opposed to, e.g., Monte Carlo estimation).</li>
+<li><strong>Off-policy learning</strong>: Q-learning is an off-policy variant of TD learning</li>
+</ul>
+<h2 id="the-td-algorithm">The TD Algorithm</h2>
+<p>The TD(0) update rule at step $t+1$ for weights $\theta$ takes the form $\theta_{t+1} = \theta_t + \eta \delta_t \gradV$, where $\delta_t = r_t + \gamma \V(\snext) - \V(s_t)$ represents the current approximation error between $\V$ and $V^{\star}$ ($\eta$ is the learning rate, $\gamma$ is the discount factor for future rewards, and $r_t$ is the reward at state $s_t$). Our linear model for $\V$ gives $\gradV = \phi(s_t)$, so the expected update can be written as</p>
+<p>\[
+\begin{aligned}
+\Delta \theta &amp;= \ev[d_b]{\theta_{t+1} - \theta_t} \cr
+&amp;= \ev[d_b]{\eta ( r_t + \gamma \transpose{\phinext} \theta_t - \transpose{\phi_t} \theta_t ) \phi_t} \cr
+&amp;= \ev[d_b]{\eta (r_t \phi_t - \phi_t(\transpose{\phi_t} - \gamma \transpose{\phinext}) \theta_t)}
+\end{aligned}
+\]
+where we define $\phi_i \equiv \phi(s_i)$ for simplicity, and $d_b$ is the distribution over states drawn from the behavior policy $b$.</p>
+<p>We can define
+\[
+\Abf \equiv \ev[d_b]{\phi_t(\transpose{\phi_t} - \gamma \transpose{\phinext})}, \cbf \equiv \ev[d_b]{r_t \phi_t}
+\]
+to see that the above expected update is of the form $\Delta \theta = \eta (\cbf - \Abf \theta)$.</p>
+<h2 id="insights-from-optimization-theory">Insights from Optimization Theory</h2>
+<p>An update of this form corresponds to a system where convergence depends entirely on the spectral radius $\rho$ of the matrix $\itmtx$. A relatively easy way to see this intuitively is as follows:</p>
+<p>If it exists, the fixed point of this system (i.e., a point where $\Delta \theta = 0$) is $\tstar = \Abf^{-1}\cbf$.
+We define the error $e_t$ at iteration $t$ as
+\[
+e_t \equiv \theta_t - \tstar
+\]
+which evolves as $e_{t+1} = \itmtx e_t \Rightarrow e_t = \itmtx^t e_0$.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> We can define convergence as $\lim_{t \to \infty} \norm{e_t} = 0$, meaning that we require
+\[
+\lim_{t \to \infty} \itmtx^t = 0 \Rightarrow \rho \itmtx &lt; 1
+\]
+to guarantee convergence.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>If $\Abf$ is symmetric positive definite (SPD, i.e., all eigenvalues of $\Abf$ are real and positive), we know how to compute learning rates $\eta > 0$ for which convergence is guaranteed. We note that this is sufficient but not necessary for convergence, but $\Abf$ not SPD indicates that the convergence guarantee is broken. The central thesis of this post rests on this statement, and much of it will be dedicated to understanding the deadly triad in the context of the properties of $\Abf$.</p>
+<h2 id="the-deadly-triad">The Deadly Triad</h2>
+<p>What can this lens of optimization bring to our understanding of the deadly triad more generally? We ablate each of the components in this section and demonstrate mathematically how, in all cases, convergence guarantees hold (either through demonstrating that $\Abf$ is SPD or otherwise).</p>
+<h3 id="no-bootstrapping">No bootstrapping</h3>
+<p>We replace TD learning with Monte Carlo estimation to expose the role of bootstrapping in the deadly triad.  Instead of estimating the true return $G_t$ with bootstrapped value function estimates ($G_t \approx r_t + \gamma \V(\snext)$), Monte Carlo estimation uses the true discounted return at time $t$, $G_t \equiv r_t + \gamma r_{t+1} + ... + \gamma^{T-t-1} r_{T-1}$, where $T$ represents the number of timesteps of an episode/trajectory. The trade-off of MC estimation with TD learning is simply cost, since $G_t$ is computed by rolling out a policy through a full trajectory.</p>
+<p>The MC estimation expected update is
+\[
+\begin{aligned}
+\Delta \theta &amp;= \ev[d_b]{\eta ( G_t - \V(s_t) ) \gradV} \cr
+&amp;= \ev[d_b]{\eta ( G_t - \transpose{\phi_t}\theta ) \phi_t}
+\end{aligned}
+\]</p>
+<p>We can similarly write this into $\Delta \theta = \eta (\cbf - \Abf \theta)$ form by defining
+\[
+\AMC \equiv \ev[d_b]{\phi_t \transpose{\phi_t}}, \cbf_{\text{MC}} \equiv G_t \phi_t
+\]
+Similar to the previous derivation, we write $\Abf_{\text{MC}}$ in matrix form:
+\[
+\AMC = \transpose{\Phi} D_b \Phi
+\]
+Comparing $\AMC$ with $\Abf$, we can see that removing bootstrapping has the direct effect of replacing $\Ibf - \gamma P_{\pi}$ with simply $\Ibf$. Intuitively, we use the next state $\snext$ (drawn from $P_{\pi}$) in TD learning to approximate the expected return, but this is replaced by the true return $G_t$ in MC estimation.</p>
+<p>We can prove that $\AMC$ is SPD. We define $\xbf \in \text{span}(\AMC) \neq 0$ and show that $\transpose{\xbf} \AMC \ubf > 0$:
+\[
+\begin{aligned}
+\transpose{\xbf} \AMC \ubf &amp;= \transpose{\xbf} \transpose{\Phi} D_b \Phi \xbf \cr
+&amp;= \sum_{s_t} d_b(s_t)(\transpose{\phi_t} \xbf)^2 \cr
+&amp;&gt; 0
+\end{aligned}
+\]
+as long as $d_b(s_t) > 0$ (true unless state $s_t$ is never visited under $b$) and $\phi_t$ has full column rank.</p>
+<p>This shows that learning converges for any MDP with linear value function approximation and off-policy learning as long as the true return is calculated rather than estimated via bootstrapping.</p>
+<h3 id="on-policy">On-policy</h3>
+<p>Replacing off-policy with on-policy learning intuitively replaces the behavior policy&rsquo;s distribution of states $D_b$ with that of the target policy $D_{\pi}$ (since they are now one and the same):
+\[
+D_b = D_\pi \Rightarrow \Aon \equiv \transpose{\Phi} D_{\pi} (I - \gamma P_{\pi}) \Phi
+\]</p>
+<p>We now want to show that $\Aon$ is SPD, defining $\xbf \in \text{span}(\AMC) \neq 0$ the same way as above and additionally defining $\ubf = \Phi \xbf$ for convenience.
+Now we can write
+\[
+\begin{aligned}
+\transpose{\xbf} \Aon \xbf &amp;= \transpose{\ubf} D_{\pi} (I - \gamma P_{\pi}) \ubf \cr
+&amp;= \inner[D_{\pi}]{\ubf}{\ubf} - \gamma \inner[D_{\pi}]{\ubf}{P_{\pi} \ubf} \cr
+&amp; \leq  \norm[D_{\pi}]{\ubf}^2 - \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf}
+\end{aligned}
+\]
+where the final line follows by the Cauchy-Schwarz inequality ($\inner[D_{\pi}]{\ubf}{P_{\pi} \ubf} \leq \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf}$). This means that in order for $\Aon$ to be SPD (i.e., $\transpose{\xbf} \Aon \xbf > 0$), we have to show $\norm[D_{\pi}]{P_{\pi}\ubf} \leq \norm[D_{\pi}]{\ubf}$.</p>
+<p>We can write $\norm[D_{\pi}]{P_{\pi}\ubf}$ as an expected value and apply Jensen&rsquo;s equality since $x^2$ is a convex function of $x$:
+\[
+\begin{aligned}
+\norm[D_{\pi}]{P_{\pi}\ubf}^2 &amp;= \sum_s d_{\pi}(s) ( \ev[P_{\pi}]{\ubf_{s&rsquo;}} )^2 \cr
+&amp; \leq  \sum_s d_{\pi}(s) \ev[P_{\pi}]{\ubf_{s&rsquo;}^2} = \sum_s d_{\pi}(s) \sum_{s&rsquo;} P_{\pi}(s&rsquo; \mid s) \ubf_{s&rsquo;}^2 \cr
+&amp;= \sum_{s&rsquo;} \ubf_{s&rsquo;}^2  \sum_s d_{\pi}(s) P_{\pi}(s&rsquo; \mid s)
+\end{aligned} <br>
+\]
+Since $d_{\pi}$ and $P_{\pi}$ are defined for the same policy $\pi$, $d_{\pi}$ is <em>stationary</em> for $P_{\pi}$: $\transpose{\dpi} \Ppi = \transpose{\dpi}$. This gives us
+\[
+\sum_s d_{\pi}(s) P_{\pi}(s&rsquo; \mid s) = \transpose{\dpi} \Ppi = \transpose{\dpi} = \sum_{s&rsquo;} \dpi(s&rsquo;)
+\]
+Using this in the previous equation block, we see that
+\[
+\begin{aligned}
+\norm[D_{\pi}]{P_{\pi}\ubf}^2 &amp;\leq \sum_{s&rsquo;} \ubf_{s&rsquo;}^2  \sum_s d_{\pi}(s) P_{\pi}(s&rsquo; \mid s) \cr
+&amp;= \sum_{s&rsquo;} \ubf_{s&rsquo;}^2 \dpi(s&rsquo;) \cr
+&amp;= \norm[D_{\pi}]{\ubf}^2
+\end{aligned}
+\]</p>
+<p>This means that
+\[
+\norm[D_{\pi}]{\ubf}^2 \geq \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf}
+\Rightarrow \norm[D_{\pi}]{\ubf}^2 - \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf} \geq 0
+\]
+Recall that this expression was our lower bound for $\transpose{\xbf} \Aon \xbf$, concluding our proof that $\Aon$ is SPD.</p>
+<p>Remember that this proof hinges on the fact that $\dpi$ is stationary with respect to $\Ppi$. In off-policy learning, $D_{\pi}$ would be replaced by $D_b$, since we draw states/actions from the behavior policy. It is <em>not true in general</em> that $d_b$ is stationary for $\Ppi$: this is the crux of the role of off-policy learning in the deadly triad.</p>
+<h3 id="no-function-approximation">No function approximation</h3>
+<p>The alternative to function approximation is a tabular representation of the value function: a discrete mapping between states and estimated values. The convergence story here relies on the fact that TD learning is now acting on the state-space itself (rather than its projection through $\phi$ into some feature space).</p>
+<p>We start with the general expected TD(0) update at iteration $k+1$:
+\[
+V_{k+1}(s_t)= \ev[d_b]{V_k(s_t) + \eta (r_t + \gamma V_k(\snext) - V_k(s_t))}
+\]</p>
+<p>Recall that the Bellman operator $\Tpi$ for policy $\pi$ is defined as
+\[
+(\Tpi V_k)(s) = \ev[d_{\pi}]{r_t + \gamma V_k(s_{t+1}) \mid s_t = s}
+\]
+Now we see that the expected TD(0) update can be written simply in terms of $\Tpi$ <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>:
+\[
+V_{k+1}(s) = V_k(s) + \eta ((\Tpi V_k)(s) - V_k(s))
+\]
+Since the Bellman operator is a contractive mapping ($\norm[\infty]{\Tpi v - \Tpi w} \leq \gamma \norm[\infty]{v - w}$), we can easily show the same contractive property for the update mapping $\text{TD}(v) \equiv v + \eta (\Tpi v - v)$:
+\[
+\begin{aligned}
+\norm[\infty]{\text{TD}(v) - \text{TD}(w)} &amp;= \norm[\infty]{(1-\eta)(v-w) + \eta(\Tpi v - \Tpi w)} \cr
+&amp;\leq ((1-\eta) + \eta \gamma) \norm[\infty]{v - w} \cr
+&amp;= (1-\eta(1+\gamma)) \norm[\infty]{v - w}
+\end{aligned}
+\]
+As long as $(1-\eta(1+\gamma)) < 1$, the TD update for tabular value functions is a contraction and thus guaranteed to converge.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We&rsquo;ve seen from an optimization perspective that each component of the deadly triad brings its own unique source of instability, and that removing each component individually leads to a converging system. The key to employing algorithms that have deadly triad properties then is to identify and alleviate/eliminate these underlying sources of instability.</p>
+<hr>
+<p>Acknowledgements here</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Quick derivation of $e_{t+1} = (\Ibf - \eta \Abf)e_t$:</p>
+$$
+        \begin{aligned}
+        e_{t+1} &= \theta_{t+1} - \tstar \cr
+        &= \theta_t + \eta (\cbf - \Abf \theta_t) - \tstar \cr
+        &= \eta \Abf \tstar + (\Ibf - \eta \Abf) \theta_t - \tstar \cr
+        &= (\Ibf - \eta \Abf)(\theta_t - \tstar) \cr
+        &= (\Ibf - \eta \Abf) e_t
+        \end{aligned}
+    $$&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></li>
+<li id="fn:2">
+<p>This implication was not directly obvious for me, so I&rsquo;ll write out a quick proof. We know $\rho(\Mbf) = \max_{\lambda} \abs{\lambda}$, and for any eigenvalue $\lambda$ of matrix $\Mbf$ with associated eigenvector $\vbf$, $\Mbf \vbf = \lambda \vbf$ and $\Mbf^t \vbf = \lambda^t \vbf$. Thus, $\Mbf^t \vbf \rightarrow 0 \Rightarrow \lambda^t \rightarrow 0$. This directly implies $\max(\lambda) < 1 \Rightarrow \rho(\Mbf) < 1$.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>We note that when target policy $\pi$ and behavior policy $b$ have very different distributions over actions / states, importance sampling with weighting $\pi(a_t \mid s_t) \over b(a_t \mid s_t)$ must be used to equate $\ev[d_b]{\cdot}$ with $\ev[d_{\pi}]{\cdot}$.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  <div class="time"><time datetime="2025-12-19">2025-12-19&nbsp;</time>
+</div>
+
+  
+  
+    <div class="comments">
+
+</div>
+  
+
+  
+    <div class="terminal-nav">
+      <div class="back-nav">
+        <a href="../" class="back-link">../</a>
+      </div>
+    </div>
+  
+
+  </main>
+  <footer>
+    <p>
+  &copy; 2025 Helen Qu &middot; made with <a href="https://gohugo.io/">Hugo</a> and <a href="https://github.com/ntk148v/shibui">shibui</a>
+</p>
+
+
+  </footer>
+</body>
+</html>
+

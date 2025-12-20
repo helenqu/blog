@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://localhost:1313/blog/</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/tags/optimization/</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/posts/</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/tags/rl/</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/posts/deadly_triad/</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/tags/</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/categories/</loc>
+  </url>
+</urlset>

@@ -1,0 +1,18 @@
+baseURL = 'https://helenqu.com/blog/'
+languageCode = 'en-us'
+title = 'helen qu'
+theme = 'shibui'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)'], ['$', '$']]
+[params]
+  math = false
+  customCSS = ["math.css"]
+  author = "Helen Qu"
+  author_url = "https://helenqu.com"

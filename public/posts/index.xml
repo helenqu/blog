@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on helen qu</title>
+    <link>http://localhost:1313/blog/posts/</link>
+    <description>Recent content in Posts on helen qu</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RL&#39;s Deadly Triad Meets Optimization</title>
+      <link>http://localhost:1313/blog/posts/deadly_triad/</link>
+      <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/posts/deadly_triad/</guid>
+      <description>&lt;div class=&#34;mathjax-macros&#34;&gt;\(&#xA;\newcommand{\phit}{\phi_t}&#xA;\newcommand{\phinext}{\phi_{t+1}}&#xA;\newcommand{\enext}{\ebf_{s_{t+1}}}&#xA;\newcommand{\et}{\ebf_{s_t}}&#xA;\newcommand{\gradV}{\nabla_{\theta} V_{\theta}}&#xA;\newcommand{\V}{V_{\theta}}&#xA;\newcommand{\snext}{s_{t+1}}&#xA;\newcommand{\tstar}{\theta^\star}&#xA;\newcommand{\itmtx}{(\Ibf - \eta \Abf)}&#xA;\newcommand{\AMC}{\Abf_{\text{MC}}}&#xA;\newcommand{\Aon}{\Abf_{\text{on}}}&#xA;\newcommand{\Atab}{\Abf_{\text{tab}}}&#xA;\newcommand{\dpi}{d_{\pi}}&#xA;\newcommand{\Ppi}{P_{\pi}}&#xA;\newcommand{\Tpi}{\Tcal_{\pi}}&#xA;\)&lt;/div&gt;&#xA;&#xA;&lt;p&gt;At this point, the so-called &amp;ldquo;deadly triad&amp;rdquo; of reinforcement learning has a status approaching that of folklore.&#xA;This unsavory combination of &lt;strong&gt;function approximation, off-policy learning, and bootstrapping&lt;/strong&gt; leads to unstable learning dynamics, even in the simplest of systems.&#xA;Most RL enthusiasts are familiar with it, yet I&amp;rsquo;ve seen surprisingly little discussion on its origins or first principles.&#xA;I made this post to shed light on the deadly triad from the perspective of traditional optimization theory, with the goal of demonstrating that the underlying principles are nothing more exotic than well-established convergence guarantees for dynamical systems.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

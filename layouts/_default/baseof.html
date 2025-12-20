@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<head>
+  {{ partial "head.html" . }}
+  {{- if or .Params.math site.Params.math }}
+  {{ partial "mathjax.html" . }}
+  {{- end }}
+</head>
+<body>
+  {{- if or .Params.math site.Params.math }}
+  <div id="mathjax-macros">{{ readFile "assets/macros.txt" | safeHTML }}</div>
+  {{- end }}
+  <header>
+    {{ partial "header.html" . }}
+  </header>
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+  <footer>
+    {{ partial "footer.html" . }}
+  </footer>
+</body>
+</html>
+

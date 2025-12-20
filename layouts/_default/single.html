@@ -1,0 +1,43 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{- $author := .Params.author | default site.Params.author }}
+  {{- $authorURL := .Params.author_url | default site.Params.author_url }}
+  {{- with $author }}
+  <div class="author">by {{ if $authorURL }}<a href="{{ $authorURL }}">{{ . }}</a>{{ else }}{{ . }}{{ end }}</div>
+  {{- end }}
+  {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+
+  {{/* Table of Contents */}}
+  {{ $hasToC := .Params.toc | default true }}
+  {{ $headers := findRE "<h[2-6]" .Content }}
+  {{ if and $hasToC (ge (len $headers) 1) }}
+    <nav class="toc">
+      <details>
+        <summary>Table of contents</summary>
+        <div class="toc-content">
+          {{ .TableOfContents }}
+        </div>
+      </details>
+    </nav>
+  {{ end }}
+
+  <!-- Content -->
+  {{ .Content }}
+  <div class="time">{{ partial "date.html" .Date}}</div>
+
+  <!-- Comments block -->
+  {{ if and .Content (default true (default .Site.Params.comments
+    .Params.comments))
+  }}
+    <div class="comments">{{- partial "comments" . -}}</div>
+  {{ end }}
+
+  {{ if not .IsHome }}
+    <div class="terminal-nav">
+      <div class="back-nav">
+        <a href="../" class="back-link">../</a>
+      </div>
+    </div>
+  {{ end }}
+{{ end }}
+

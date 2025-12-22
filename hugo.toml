@@ -20,3 +20,7 @@ theme = 'shibui'
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+[services]
+  [services.googleAnalytics]
+    id = 'G-TTK0ES3QC3'

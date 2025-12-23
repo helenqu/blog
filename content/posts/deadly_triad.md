@@ -1,7 +1,7 @@
 ---
 title:  "RL's Deadly Triad Meets Optimization"
 author: "Helen Qu"
-date: 2025-12-19
+date: 2025-12-23
 math: true
 tags: ["rl", "optimization"]
 tagline: "understanding unstable learning dynamics in deadly triad systems through optimization theory"
@@ -26,7 +26,7 @@ tagline: "understanding unstable learning dynamics in deadly triad systems throu
 {{< /macros >}}
 
 <!-- Baird's counterexample is a canonical concrete system that demonstrates the instability of semi-gradient Q-learning in the presence of the so-called "deadly triad" of reinforcement learning: functional approximation, off-policy learning, and bootstrapping. -->
-The unsavory combination of **function approximation, off-policy learning, and bootstrapping**, or the so-called **"deadly triad"** of reinforcement learning, has a status approaching that of folklore for its ability to induce instability in even the simplest of systems.
+The unsavory combination of **function approximation, off-policy learning, and bootstrapping**, or the so-called **"deadly triad"** of reinforcement learning, has a status approaching that of folklore for its ability to induce unstable learning dynamics/divergence in even the simplest of systems.
 While likely a household name among RL enthusiasts, I've seen surprisingly little discussion on its origins or first principles.
 I made this post to shed light on the deadly triad from the perspective of traditional optimization theory, with the goal of demonstrating that the underlying principles are nothing more exotic than well-established convergence guarantees for dynamical systems.
 
@@ -245,7 +245,7 @@ As long as $(1-\eta(1+\gamma)) < 1$, the TD update for tabular value functions i
 We've seen from an optimization perspective that each component of the deadly triad brings its own unique source of instability, and that removing each component individually leads to a converging system. The key to employing algorithms that have deadly triad properties then is to identify and alleviate these underlying sources of instability.
 
 ---
-Acknowledgements here
+Huge thank you to my draft readers/cheerleaders [Alex Wang](https://www.alexwang.ai) and [Sophie Barstein](https://cds.nyu.edu/team/sophie-barstein/) 🫶
 
 [^specradius_convergence]: This implication was not directly obvious for me, so I'll write out a quick proof. We know $\rho(\Mbf) = \max_{\lambda} \abs{\lambda}$, and for any eigenvalue $\lambda$ of matrix $\Mbf$ with associated eigenvector $\vbf$, $\Mbf \vbf = \lambda \vbf$ and $\Mbf^t \vbf = \lambda^t \vbf$. Thus, $\Mbf^t \vbf \rightarrow 0 \Rightarrow \lambda^t \rightarrow 0$. This directly implies $\max(\lambda) < 1 \Rightarrow \rho(\Mbf) < 1$.
 [^TDerr]: Quick derivation of $e_{t+1} = (\Ibf - \eta \Abf)e_t$: 

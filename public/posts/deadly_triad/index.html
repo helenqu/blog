@@ -57,7 +57,8 @@ mjx-container[display="true"] {
  
 main {
   overflow-x: hidden;
-  max-width: 100%;
+  padding-left: 0.2em;
+  margin-left: -0.2em;
 }
 </style>
 <script>
@@ -611,7 +612,7 @@ MathJax = {
 \newcommand{\Tpi}{\Tcal_{\pi}}
 \)</div>
 
-<p>The unsavory combination of <strong>function approximation, off-policy learning, and bootstrapping</strong>, or the so-called <strong>&ldquo;deadly triad&rdquo;</strong> of reinforcement learning, has a status approaching that of folklore for its ability to induce instability in even the simplest of systems.
+<p>The unsavory combination of <strong>function approximation, off-policy learning, and bootstrapping</strong>, or the so-called <strong>&ldquo;deadly triad&rdquo;</strong> of reinforcement learning, has a status approaching that of folklore for its ability to induce unstable learning dynamics/divergence in even the simplest of systems.
 While likely a household name among RL enthusiasts, I&rsquo;ve seen surprisingly little discussion on its origins or first principles.
 I made this post to shed light on the deadly triad from the perspective of traditional optimization theory, with the goal of demonstrating that the underlying principles are nothing more exotic than well-established convergence guarantees for dynamical systems.</p>
 <h2 id="the-merits-of-the-deadly-triad">The Merits of the Deadly Triad</h2>
@@ -773,7 +774,7 @@ As long as $(1-\eta(1+\gamma)) < 1$, the TD update for tabular value functions i
 <h2 id="conclusion">Conclusion</h2>
 <p>We&rsquo;ve seen from an optimization perspective that each component of the deadly triad brings its own unique source of instability, and that removing each component individually leads to a converging system. The key to employing algorithms that have deadly triad properties then is to identify and alleviate these underlying sources of instability.</p>
 <hr>
-<p>Acknowledgements here</p>
+<p>Huge thank you to my draft readers/cheerleaders <a href="https://www.alexwang.ai">Alex Wang</a> and <a href="https://cds.nyu.edu/team/sophie-barstein/">Sophie Barstein</a> 🫶</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -826,7 +827,7 @@ $$&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;
 </ol>
 </div>
 
-  <div class="time"><time datetime="2025-12-19">2025-12-19&nbsp;</time>
+  <div class="time"><time datetime="2025-12-23">2025-12-23&nbsp;</time>
 </div>
 
   

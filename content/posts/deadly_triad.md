@@ -4,7 +4,6 @@ author: "Helen Qu"
 date: 2025-12-19
 math: true
 tags: ["rl", "optimization"]
-draft: true
 ---
 
 {{< macros >}}
@@ -26,13 +25,13 @@ draft: true
 {{< /macros >}}
 
 <!-- Baird's counterexample is a canonical concrete system that demonstrates the instability of semi-gradient Q-learning in the presence of the so-called "deadly triad" of reinforcement learning: functional approximation, off-policy learning, and bootstrapping. -->
-At this point, the so-called "deadly triad" of reinforcement learning, the unsavory combination of **function approximation, off-policy learning, and bootstrapping** that leads to unstable learning dynamics even in the simplest of systems, has a status approaching that of folklore.
-While most RL enthusiasts are at least familiar with the concept, I've seen surprisingly little discussion on its origins or first principles.
+The unsavory combination of **function approximation, off-policy learning, and bootstrapping**, or the so-called **"deadly triad"** of reinforcement learning, has a status approaching that of folklore for its ability to induce instability in even the simplest of systems.
+While likely a household name among RL enthusiasts, I've seen surprisingly little discussion on its origins or first principles.
 I made this post to shed light on the deadly triad from the perspective of traditional optimization theory, with the goal of demonstrating that the underlying principles are nothing more exotic than well-established convergence guarantees for dynamical systems.
 
-## Why adopt Deadly Triad learning paradigms?
+## The Merits of the Deadly Triad
 
-If the deadly triad is so deadly, why not avoid it altogether? 
+If the deadly triad is known to cause instability, why not avoid it altogether? 
 - **Function approximation** (e.g., via neural networks) allows us to parameterize very high-dimensional state-action spaces that would otherwise fall prey to the curse of dimensionality (e.g., [DQN](https://arxiv.org/abs/1509.06461)). This problem is further exacerbated in RL environments today, as real-world state-action spaces (e.g., multimodal video + sensor inputs in self-driving) are only becoming increasingly high-dimensional.
 - **Off-policy learning** is a convenient way to disentangle the data source (behavior policy) from the target policy. Since the optimal policy for data generation will rarely coincide with the globally optimal policy due to the need for exploration, this allows the data generation policy to decouple from the learned optimal target policy. Additionally, off-policy learning allows for data reuse (through e.g., experience replay) and is easier to implement in practice at scale in distributed setups.
 - Finally, **bootstrapping** replaces the true return at state $s_t$, which requires rolling out a full trajectory to calculate, with a one-step rollout ($r_t$) and approximates the rest with the bootstrapped value function estimate $\V(\snext)$. This is a straightforward way to balance the trade-off between computational cost and accuracy.
@@ -46,17 +45,17 @@ While today's RL post-training pipelines rarely combine all three elements at on
 
 We adopt a canonical simple setup for the deadly triad. We parameterize the value function with a linear model $\V(s) = \transpose{\phi(s)} \theta$ where $\phi(s)$ is a feature vector corresponding to state $s$ and $\theta$ are the learned feature weights. We optimize $\theta$ with off-policy temporal difference (TD(0)) learning, a classic bootstrapping-based value function learning technique.
 
-The key result is that learning will diverge due to the presence of the deadly triad:
+The key result is that convergence guarantees will fail to hold due to the presence of the deadly triad:
 * **Function approximation**: We use a linear parameterization for the value function $\V$.
 * **Boostrapping**: The TD family of methods uses bootstrapping to iteratively refine value function estimates (as opposed to explicitly calculating the true return through a full rollout, e.g., in Monte Carlo estimation).
 * **Off-policy learning**: We use an off-policy variant of TD learning where states are drawn from a *behavior policy* distinct from the target policy.
 
-## The TD Algorithm
+## The TD Learning Algorithm
 <!-- how much context do i give??? -->
 
 The TD(0) update rule at step $t+1$ for weights $\theta$ takes the form 
 $$\theta_{t+1} = \theta_t + \eta \delta_t \gradV,\;\delta_t = r_t + \gamma \V(\snext) - \V(s_t)$$
-Here, $\delta_t$ represents the current approximation error between $\V$ and $V^{\star}$, $\eta$ is the learning rate, $\gamma$ is the discount factor for future rewards, and $r_t$ is the reward at state $s_t$. Our linear model for $\V$ gives $\gradV = \phi(s_t)$, so the expected update can be written as
+Here, $\delta_t$ represents the current approximation error between $\V$ and $V^{\star}$, where $\eta$ is the learning rate, $\gamma$ is the discount factor for future rewards, and $r_t$ is the reward at state $s_t$. Our linear model for $\V$ gives $\gradV = \phi(s_t)$, so the expected update can be written as
 
 \\[ 
     \begin{aligned}
@@ -109,7 +108,7 @@ To construct such an $x$ we look at the properties of the Baird's counterexample
 
 [FILL THIS IN] -->
 
-## The Deadly Triad
+## The Not-So-Deadly Pairs
 We ablate each of the components of the deadly triad in this section and demonstrate mathematically how, in all cases, convergence guarantees hold (either through demonstrating that $\Abf$ is SPD or otherwise).
 
 First, we write the general $\Abf$ defined in Equation 1 into matrix form for ease of comparison:
@@ -125,7 +124,7 @@ Feel free to refer to this footnote [^Amatrix] for a derivation.
 
 ### No bootstrapping
 
-We replace TD learning with Monte Carlo estimation to expose the role of bootstrapping in the deadly triad.  Instead of estimating the true return $G_t$ with bootstrapped value function estimates ($G_t \approx r_t + \gamma \V(\snext)$), Monte Carlo estimation uses the true discounted return at time $t$, $G_t \equiv r_t + \gamma r_{t+1} + ... + \gamma^{T-t-1} r_{T-1}$, where $T$ represents the number of timesteps of an episode/trajectory. The trade-off of MC estimation with TD learning is simply cost, since $G_t$ is computed by rolling out a policy through a full trajectory.
+We replace TD learning with Monte Carlo estimation to expose the role of bootstrapping in the deadly triad.  While TD learning approximates the true return $G_t$ with bootstrapped value function estimates ($G_t \approx r_t + \gamma \V(\snext)$), Monte Carlo estimation uses the true discounted return at time $t$, $G_t \equiv r_t + \gamma r_{t+1} + ... + \gamma^{T-t-1} r_{T-1}$, where $T$ represents the number of timesteps of an episode/trajectory. The trade-off of MC estimation with TD learning is simply cost, since $G_t$ is computed by rolling out a policy through a full trajectory.
 
 The MC estimation expected update is 
 \\[ 
@@ -143,7 +142,7 @@ To investigate the properties of $\AMC$, we first rewrite $\AMC$ in matrix form:
 \\[
     \AMC = \transpose{\Phi} D_b \Phi
 \\]
-Comparing $\AMC$ with $\Abf$ (in Equation 2), we can see that removing bootstrapping has the direct effect of replacing $\Ibf - \gamma P_{\pi}$ with simply $\Ibf$. Intuitively, we use the next state $\snext$ (drawn from $P_{\pi}$) in TD learning to approximate the expected return, but this is replaced by the true return $G_t$ in MC estimation.
+Comparing $\AMC$ with the general deadly triad $\Abf$ (in Equation 2), we can see that removing bootstrapping has the direct effect of replacing $\Ibf - \gamma P_{\pi}$ with simply $\Ibf$. Intuitively, we use the next state $\snext$ (drawn from $P_{\pi}$) in TD learning to approximate the expected return, but this is replaced by the true return $G_t$ in MC estimation.
 
 We can prove that $\AMC$ is SPD. We define $\xbf \in \text{span}(\AMC) \neq 0$ and show that $\transpose{\xbf} \AMC \ubf > 0$:
 \\[
@@ -161,7 +160,7 @@ This shows that learning converges with linear value function approximation and 
 
 Replacing off-policy with on-policy learning intuitively replaces the behavior policy's distribution of states $D_b$ in Equation 2 with that of the target policy $D_{\pi}$ (since they are now one and the same):
 \\[
-    D_b = D_\pi \Rightarrow \Aon \equiv \transpose{\Phi} D_{\pi} (I - \gamma P_{\pi}) \Phi
+    D_b = D_\pi \Rightarrow \Aon \equiv \transpose{\Phi} D_{\pi} (\Ibf - \gamma P_{\pi}) \Phi
 \\]
 
 We now want to show that $\Aon$ is SPD, defining $\xbf \in \text{span}(\AMC) \neq 0$ the same way as above and additionally defining $\ubf = \Phi \xbf$ for convenience.
@@ -170,10 +169,10 @@ Now we can write
     \begin{aligned}
     \transpose{\xbf} \Aon \xbf &= \transpose{\ubf} D_{\pi} (I - \gamma P_{\pi}) \ubf \cr
     &= \inner[D_{\pi}]{\ubf}{\ubf} - \gamma \inner[D_{\pi}]{\ubf}{P_{\pi} \ubf} \cr
-    & \leq  \norm[D_{\pi}]{\ubf}^2 - \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf} 
+    & \geq  \norm[D_{\pi}]{\ubf}^2 - \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf} 
     \end{aligned}
 \\]
-where the final line follows by the Cauchy-Schwarz inequality ($\inner[D_{\pi}]{\ubf}{P_{\pi} \ubf} \leq \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf}$). This means that in order for $\Aon$ to be SPD (i.e., $\transpose{\xbf} \Aon \xbf > 0$), we have to show $\norm[D_{\pi}]{P_{\pi}\ubf} \leq \norm[D_{\pi}]{\ubf}$.
+where we use the Cauchy-Schwarz inequality, $\inner[D_{\pi}]{\ubf}{P_{\pi} \ubf} \leq \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf}$, for the final line. We see that $\transpose{\xbf} \Aon \xbf$ is lower bounded by $\norm[D_{\pi}]{\ubf}^2 - \norm[D_{\pi}]{P_{\pi} \ubf} \norm[D_{\pi}]{\ubf}$, so in order for $\Aon$ to be SPD (i.e., $\transpose{\xbf} \Aon \xbf > 0$) we must show $\norm[D_{\pi}]{P_{\pi}\ubf} \leq \norm[D_{\pi}]{\ubf}$.
 
 We can write $\norm[D_{\pi}]{P_{\pi}\ubf}$ as an expected value and apply Jensen's equality since $x^2$ is a convex function of $x$:
 \\[
@@ -213,6 +212,7 @@ We start with the general expected TD(0) update at iteration $k+1$:
 \\[
     V_{k+1}(s_t)= \ev[d_b]{V_k(s_t) + \eta (r_t + \gamma V_k(\snext) - V_k(s_t))}
 \\]
+Note that this is the same update form as presented in Section 3, but in terms of the value function $V$ itself rather than the weights $\theta$ of the parameterized value function $\V$.
 <!-- and define the expected update as 
 \\[
     \begin{aligned}
@@ -228,7 +228,8 @@ Now we see that the expected TD(0) update can be written simply in terms of $\Tp
 \\[
     V_{k+1}(s) = V_k(s) + \eta ((\Tpi V_k)(s) - V_k(s))
 \\]
-Since the Bellman operator is a contractive mapping ($\norm[\infty]{\Tpi v - \Tpi w} \leq \gamma \norm[\infty]{v - w}$), we can easily show the same contractive property for the update mapping $\text{TD}(v) \equiv v + \eta (\Tpi v - v)$:
+Since the Bellman operator is a contractive mapping   
+($\norm[\infty]{\Tpi v - \Tpi w} \leq \gamma \norm[\infty]{v - w}$), we can easily show the same contractive property for the TD(0) update mapping $\text{TD}(v) \equiv v + \eta (\Tpi v - v)$:
 \\[
     \begin{aligned}
     \norm[\infty]{\text{TD}(v) - \text{TD}(w)} &= \norm[\infty]{(1-\eta)(v-w) + \eta(\Tpi v - \Tpi w)} \cr
@@ -240,7 +241,7 @@ As long as $(1-\eta(1+\gamma)) < 1$, the TD update for tabular value functions i
  
 ## Conclusion
 
-We've seen from an optimization perspective that each component of the deadly triad brings its own unique source of instability, and that removing each component individually leads to a converging system. The key to employing algorithms that have deadly triad properties then is to identify and alleviate/eliminate these underlying sources of instability.
+We've seen from an optimization perspective that each component of the deadly triad brings its own unique source of instability, and that removing each component individually leads to a converging system. The key to employing algorithms that have deadly triad properties then is to identify and alleviate these underlying sources of instability.
 
 ---
 Acknowledgements here

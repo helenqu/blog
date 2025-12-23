@@ -35,11 +35,29 @@
 
 
   <style>
+ 
 mjx-container {
   font-size: 90% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
 }
-#mathjax-macros, .mathjax-macros {
+mjx-container[display="true"] {
+  display: block !important;
+  padding: 0.5em 0;
+}
+ 
+#mathjax-macros, .mathjax-macros,
+#mathjax-macros *, .mathjax-macros * {
   display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+ 
+main {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 </style>
 <script>

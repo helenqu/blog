@@ -4,6 +4,7 @@ author: "Helen Qu"
 date: 2025-12-19
 math: true
 tags: ["rl", "optimization"]
+tagline: "understanding unstable learning dynamics in deadly triad systems through optimization theory"
 ---
 
 {{< macros >}}

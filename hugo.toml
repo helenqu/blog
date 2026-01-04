@@ -26,6 +26,4 @@ theme = 'shibui'
     id = 'G-TTK0ES3QC3'
   
 [sitemap]
-  changefreq: weekly
-  priority: 0.5
-  filename: sitemap.xml
+  changefreq = 'monthly'

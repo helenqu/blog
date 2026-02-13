@@ -1,0 +1,6 @@
+{{- $key := .Get 0 | default (.Get "key") -}}
+{{- if $key -}}
+<a href="#ref-{{ $key }}" class="citation" data-cite-key="{{ $key }}">[?]</a>
+{{- else -}}
+{{- errorf "cite shortcode requires a citation key" -}}
+{{- end -}}

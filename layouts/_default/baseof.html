@@ -19,6 +19,10 @@
   <footer>
     {{ partial "footer.html" . }}
   </footer>
+  {{- $bibJS := resources.Get "js/bibliography.js" | minify | fingerprint -}}
+  <script src="{{ $bibJS.RelPermalink }}" defer></script>
+  {{- $lightboxJS := resources.Get "js/lightbox.js" | minify | fingerprint -}}
+  <script src="{{ $lightboxJS.RelPermalink }}" defer></script>
 </body>
 </html>
 

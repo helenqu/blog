@@ -1,0 +1,20 @@
+{{- $src := .Get "src" | default (.Get 0) -}}
+{{- if $src -}}
+{{- $bibPath := printf "bibliography/%s.bib" $src -}}
+{{- $bibContent := "" -}}
+{{- with resources.Get $bibPath -}}
+  {{- $bibContent = .Content -}}
+{{- else -}}
+  {{- $staticPath := printf "static/bibliography/%s.bib" $src -}}
+  {{- $bibContent = readFile $staticPath -}}
+{{- end -}}
+<section class="bibliography" data-bib-src="{{ $src }}">
+  <h2 class="no-counter">References</h2>
+  <script type="text/bibtex" id="bibtex-data-{{ $src }}">
+{{ $bibContent | safeHTML }}
+  </script>
+  <ol class="bib-list"></ol>
+</section>
+{{- else -}}
+  {{- errorf "bibliography shortcode requires a src parameter" -}}
+{{- end -}}

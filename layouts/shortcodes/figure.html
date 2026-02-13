@@ -1,0 +1,21 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $class := .Get "class" | default "" -}}
+{{- $width := .Get "width" -}}
+{{- $height := .Get "height" -}}
+
+<figure{{ with $class }} class="{{ . }}"{{ end }}>
+  <img src="{{ $src }}"
+    {{- with $alt }} alt="{{ . }}"{{ end -}}
+    {{- with $width }} width="{{ . }}"{{ end -}}
+    {{- with $height }} height="{{ . }}"{{ end -}}
+  >
+  {{- with .Inner }}
+  <figcaption>{{ . }}</figcaption>
+  {{- else }}
+  {{- with $.Get "caption" }}
+  <figcaption>{{ . | safeHTML }}</figcaption>
+  {{- end }}
+  {{- end }}
+</figure>
+

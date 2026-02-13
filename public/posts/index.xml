@@ -6,8 +6,15 @@
     <description>Recent content in Posts on helen qu</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An Emergence Perspective on Multi-Agent System Design</title>
+      <link>http://localhost:1313/blog/posts/emergence/</link>
+      <pubDate>Tue, 06 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/posts/emergence/</guid>
+      <description>&lt;p&gt;We observe emergent behavior in stunningly diverse parts of our world, ranging from collective animal behavior to economic systems. Emergence (as defined by Wikipedia) &amp;ldquo;occurs when a complex entity has properties or behaviors that its parts do not have on their own, and emerge only when they interact in a wider whole&amp;rdquo;. In other words, emergent (or system-level) outcomes can be more than (and different from &lt;a href=&#34;#ref-anderson1972&#34; class=&#34;citation&#34; data-cite-key=&#34;anderson1972&#34;&gt;[?]&lt;/a&gt;) the sum of their parts. A wide range of system-level outcomes can emerge from a collection of agents following their own, often simple, reward/value functions.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>RL&#39;s Deadly Triad Meets Optimization</title>
       <link>http://localhost:1313/blog/posts/deadly_triad/</link>

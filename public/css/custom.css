@@ -172,7 +172,7 @@ h5.no-counter::before {
 .content img,
 article img,
 main img:not(.site-icon) {
-  cursor: zoom-in;
+  cursor: pointer;
 }
 
 /* Lightbox overlay */

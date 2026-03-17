@@ -3,7 +3,7 @@
 <head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=blog/livereload" data-no-instant defer></script>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>An Emergence Perspective on Multi-Agent System Design (Part 1) | helen qu</title>
+<title>An Emergence Perspective on Multi-Agent System Design (Part 2) | helen qu</title>
 <link rel="icon" type="image/png" href="/blog/favicon.png">
 <link rel="icon" type="image/webp" href="/blog/favicon.webp">
 <link rel="apple-touch-icon" href="/blog/favicon.png">
@@ -523,7 +523,7 @@ MathJax = {
   
   <li class="current">
     
-    <a href="/blog/posts/emergence/">An Emergence Perspective on Multi-Agent System Design (Part 1)</a>
+    <a href="/blog/posts/emergence_2/">An Emergence Perspective on Multi-Agent System Design (Part 2)</a>
     
   </li>
 
@@ -537,7 +537,7 @@ MathJax = {
   </header>
   <main>
     
-  <h1>An Emergence Perspective on Multi-Agent System Design (Part 1)</h1>
+  <h1>An Emergence Perspective on Multi-Agent System Design (Part 2)</h1>
   <div class="author">by <a href="https://helenqu.com">Helen Qu</a></div>
   
   <div class="terms-list">
@@ -560,9 +560,12 @@ MathJax = {
         <div class="toc-content">
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#self-organization-leads-to-complexity">Self-organization leads to complexity</a></li>
-    <li><a href="#selfish-intelligent-agents-can-give-rise-to-complex-emergent-behavior">Selfish intelligent agents can give rise to complex emergent behavior</a></li>
-    <li><a href="#emergence-of-structure-as-opposed-to-chaos-depends-on-the-environment">Emergence of structure as opposed to chaos depends on the environment</a></li>
+    <li><a href="#the-role-of-regulation">The role of regulation</a>
+      <ul>
+        <li><a href="#passive-vs-active-regulation">Passive vs. active regulation</a></li>
+        <li><a href="#regulation-and-externalized-cognition">Regulation and externalized cognition</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
         </div>
@@ -571,172 +574,38 @@ MathJax = {
   
 
   
-  <p>We observe emergent behavior in stunningly diverse parts of our world, ranging from collective animal behavior to economic systems. Emergence (as defined by Wikipedia) &ldquo;occurs when a complex entity has properties or behaviors that its parts do not have on their own, and emerge only when they interact in a wider whole&rdquo;. In other words, emergent (or system-level) outcomes can be more than (and different from) the sum of their parts <a href="#ref-anderson1972" class="citation" data-cite-key="anderson1972">[?]</a>. A wide range of system-level outcomes can emerge from a collection of agents following their own, often simple, reward/value functions.</p>
-<p>On one hand, structure can emerge: for example, migratory birds fly in a V formation despite the lack of system-level organization. On the other hand is the emergence of chaos: epitomized by the double pendulum, a composition of simple systems can lead to chaotic behavior. Similarly, agentic systems will inevitably develop emergent system-level outcomes: perhaps cooperation to achieve a human-aligned goal, perhaps cooperation to subvert their intended purpose, or perhaps collapse into complete societal disarray. <strong>As agentic systems gain prominence, I posit that we should learn to design for emergent global behavior the same way that we design individual agent behavior.</strong> To do so, we must first demystify the process of emergence and its connection to individuals&rsquo; actions as well as the agents&rsquo; environment.</p>
-<!-- raw HTML omitted -->
-<p>In this post, we start by seeing complexity and emergence as an intrinsic property of systems, and how complexity can emerge even in the simplest of environments where there are no players at all. We then further our understanding of emergence by observing collective behavior in animals. In the next post, we will clarify the connection to agentic AI systems through multi-agent/mean-field reinforcement learning.</p>
-<h2 id="self-organization-leads-to-complexity">Self-organization leads to complexity</h2>
-<p>The canonical example of emergent complexity is Conway&rsquo;s Game of Life, a cellular automaton model that evolves deterministically starting from an initial state. The game takes place on an infinite 2D grid where each cell&rsquo;s state at any iteration is a fixed function of the states of its neighbors. Despite the simplicity of the rules and setup, Conway&rsquo;s Game of Life is proven to be a universal Turing machine, and an incredible taxonomy of &ldquo;organisms&rdquo; defined by unique patterns have been observed. This and other cellular automaton models demonstrate that the emergence of complexity in systems occurs independently of the presence of agency or incentive structure.</p>
-<figure>
-  <img src="/blog/images/Conways_game_of_life_breeder_animation.gif">
-  <figcaption>
-Three types of organisms in the Game of Life: A "puffer-type breeder" (red) that leaves glider guns (green) in its wake, which in turn create gliders (blue). From <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Wikipedia</a>.
-</figcaption>
-</figure>
-
-
-<p>However, even without insidious actors or misaligned incentives, many of these systems tend toward chaos. Various dynamical systems (e.g., piles of sand) are known to tend toward criticality: sandpiles accumulate sand until a critical point, where the next grain of sand triggers a massive avalanche (modeled by the Abelian/Bak-Tang-Wiesenfeld model <a href="#ref-bak1987" class="citation" data-cite-key="bak1987">[?]</a> in the self-organized criticality literature). Thus, we see that bad actors are not the only way systems devolve into chaos: some systems tend toward criticality <em>by design</em>.</p>
-<p>However, let&rsquo;s consider the alternatives to such a tendency. The behavior of a cellular automaton model can be expressed along a spectrum. In one extreme all cells either rapidly die or settle into repeating, predictable patterns: the &ldquo;ordered&rdquo; extreme; while the other extreme is complete unpredictable randomness, which is equally uninteresting. Somewhere in between is the critical regime: stable enough where information can persist and propagate, but flexible enough to avoid fully predictable/ordered solutions. In fact, &ldquo;Computation at the Edge of Chaos&rdquo; (1990) <a href="#ref-langton1990" class="citation" data-cite-key="langton1990">[?]</a> postulates that a key characteristic of systems with interesting emergent properties <em>is</em> existence in this critical regime (at the &ldquo;edge of chaos&rdquo;). We will see in future sections how this language of criticality and phase transitions can be useful for thinking about dynamics in multi-agent systems.</p>
-<figure>
-  <img src="/blog/images/edge_of_chaos2.png">
-  <figcaption>
-The spectrum of behavior in 1D cellular automata, parameterized by $\lambda$. At small values of $\lambda$, cells die out quickly or fall into repeating patterns. Interesting fractal patterns emerge, then dominate, as $\lambda$ increases. However, randomness and chaos begin to take hold as well, and dominate by $\lambda=0.75$. Adapted from <a href="#ref-langton1990" class="citation" data-cite-key="langton1990">[?]</a>.
-</figcaption>
-</figure>
-
-
-<h2 id="selfish-intelligent-agents-can-give-rise-to-complex-emergent-behavior">Selfish intelligent agents can give rise to complex emergent behavior</h2>
-<p>The spontaneous emergence of complex group behaviors in animals is an ideal setting in which to study the relationship between system-level and agent-level behavior. In the absence of explicit leadership, birds self-organize to fly in formation, animals travel in herds, ants form long meandering trails to transport food, and fish swim in schools that move as one to adeptly avoid predation.</p>
-<p>We first look at how group herding behavior can emerge purely from selfish incentives. In &ldquo;Geometry of the Selfish Herd&rdquo; (1971), Hamilton <a href="#ref-hamilton1971" class="citation" data-cite-key="hamilton1971">[?]</a> put forth the theory that animals engage in social behavior and herding due to purely selfish, individual incentives. He posits that each animal seeks to reduce its own &ldquo;domain of danger&rdquo;, the physical area for which they are the most likely prey. This is illustrated nicely using a 1D example of frogs sitting around a circular pond, where a water snake emerges at a random location and attacks the closest frog. Each frog can achieve its minimal domain of danger by positioning itself in between other frogs, leading to clustering behavior.</p>
-<figure>
-  <img src="/blog/images/selfish_herd_frogs.png">
-  <figcaption>
-Frogs reduce their domain of danger by clustering close to other frogs in Hamilton's selfish herd theory. Adapted from <a href="#ref-hamilton1971" class="citation" data-cite-key="hamilton1971">[?]</a>.
-</figcaption>
-</figure>
-
-
-<p>Reynolds <a href="#ref-reynolds1987" class="citation" data-cite-key="reynolds1987">[?]</a> further demonstrated in the Boids (bird-oids) simulations that flocking behavior in birds can be reproduced by specifying 3 simple rules for each agent&rsquo;s behavior: maintaining (1) reasonable separation between itself and its neighbors, (2) alignment with neighbors&rsquo; headings, and (3) cohesion with its neighbors. Most importantly, just as hypothesized for animal groups, no group-level control mechanism is needed to produce flocking behavior &ndash; it is sufficient to simply specify agent-level behavior and rewards.</p>
-<h2 id="emergence-of-structure-as-opposed-to-chaos-depends-on-the-environment">Emergence of structure as opposed to chaos depends on the environment</h2>
-<p>A simple model for collective behavior introduced in 1995 by Vicsek, et al. <a href="#ref-vicsek1995" class="citation" data-cite-key="vicsek1995">[?]</a> uncovers a phase transition from random chaotic movement to the emergence of flocking exclusively through altering environmental parameters. The Vicsek model holds for any self-propelled particles (animals, bacteria, etc.) and assumes simply that, at each timestep, each particle will align its heading with its neighbors&rsquo; headings.</p>
-<p>Specifically, each particle $i$ has a position $\xbf_i(t)$ and velocity $\vbf_i(t)$, consisting of velocity value $v$ (assumed global to all particles) and heading $\theta_i(t)$ at time $t$. At each timestep, each particle adjusts its heading and position as follows:
-\begin{align*}
-\theta_i(t+1) &amp;= \langle \theta(t) \rangle_r + \eta_i(t) \cr
-\xbf_i(t+1)   &amp;= \xbf_i(t) + \vbf_i(t) \Delta t
-\end{align*}
-where $\langle \theta(t) \rangle_r$ is the average heading of all neighbors $\theta_j(t)$ in which particle $j$ is within some radius $r$ of particle $i$, and $\eta_i(t) \sim \textrm{Uni}(-\eta, \eta)$ is a randomly chosen noise/temperature factor with amplitude parameter $\eta$.
-$\eta$ can be interpreted as noise in the communication channel between particles, or as the temperature parameter in an Ising-style model.
-The key result from Vicsek et al. is that noise values lower than some critical value $\eta_c$ (and choices of particle density $\rho$ greater than critical density $\rho_c$) will induce a phase transition from complete disorder to an ordered state of synchronized collective transport.</p>
-<figure>
-  <img src="/blog/images/vicsek.png">
-  <figcaption>
-Adapted from <a href="#ref-vicsek1995" class="citation" data-cite-key="vicsek1995">[?]</a>.
-</figcaption>
-</figure>
-
-
-<p>Notably, this phase transition is induced by altering <em>environmental parameters only</em> ($\eta, \rho$), while the incentives/behavior of the particles remains unchanged. More sophisticated models proposed in later work (e.g., <a href="#ref-FLIERL1999397" class="citation" data-cite-key="FLIERL1999397">[?]</a>, <a href="#ref-cucker_smale" class="citation" data-cite-key="cucker_smale">[?]</a>) further bolstered these conclusions. In particular, Cucker &amp; Smale (2007) <a href="#ref-cucker_smale" class="citation" data-cite-key="cucker_smale">[?]</a> proved that, under certain communication conditions (interaction strength vs distance), a system of agents will unconditionally converge to a common collective velocity.</p>
-<hr>
-<p>In this post, we set the scene for understanding emergence in a variety of systems with and without intelligent agents. We saw that</p>
-<ol>
-<li>Complexity is an intrinsic property of systems, even simple ones with no agents</li>
-<li>Complex emergent behavior can arise from a collection of purely self-interested intelligent agents</li>
-<li>The environment (e.g., number density of agents, noise in the system) determines whether structure or chaos emerges</li>
-</ol>
-<p>In the next post, we&rsquo;ll connect these ideas back to design of multi-agent systems and multi-agent reinforcement learning!
-Thanks for reading and stay tuned for part 2!</p>
-<hr>
-<section class="bibliography" data-bib-src="emergence">
-  <h2 class="no-counter">References</h2>
-  <script type="text/bibtex" id="bibtex-data-emergence">
-@article{hamilton1971,
-  author = {Hamilton, W. D.},
-  title = {Geometry for the selfish herd},
-  journal = {Journal of Theoretical Biology},
-  volume = {31},
-  number = {2},
-  pages = {295--311},
-  year = {1971},
-  doi = {10.1016/0022-5193(71)90189-5},
-}
-
-@inproceedings{reynolds1987,
-  author = {Reynolds, Craig W.},
-  title = {Flocks, herds and schools: A distributed behavioral model},
-  booktitle = {Proceedings of the 14th Annual Conference on Computer Graphics and Interactive Techniques (SIGGRAPH '87)},
-  pages = {25--34},
-  year = {1987},
-  doi = {10.1145/37401.37406},
-}
-
-@article{vicsek1995,
-  author = {Vicsek, Tam\'{a}s and Czir\'{o}k, Andr\'{a}s and Ben-Jacob, Eshel and Cohen, Inon and Shochet, Ofer},
-  title = {Novel type of phase transition in a system of self-driven particles},
-  journal = {Physical Review Letters},
-  volume = {75},
-  number = {6},
-  pages = {1226--1229},
-  year = {1995},
-  doi = {10.1103/PhysRevLett.75.1226}
-}
-
-@article{anderson1972,
-  author = {Anderson, P. W.},
-  title = {More is different},
-  journal = {Science},
-  volume = {177},
-  number = {4047},
-  pages = {393--396},
-  year = {1972},
-  doi = {10.1126/science.177.4047.393},
-}
-
-@article{langton1990,
-  author = {Langton, Christopher G.},
-  title = {Computation at the edge of chaos: Phase transitions and emergent computation},
-  journal = {Physica D: Nonlinear Phenomena},
-  volume = {42},
-  number = {1-3},
-  pages = {12--37},
-  year = {1990},
-  doi = {10.1016/0167-2789(90)90064-V},
-}
-
-@article{bak1987,
-  author = {Bak, Per and Tang, Chao and Wiesenfeld, Kurt},
-  title = {Self-organized criticality: An explanation of the 1/f noise},
-  journal = {Physical Review Letters},
-  volume = {59},
-  number = {4},
-  pages = {381--384},
-  year = {1987},
-  doi = {10.1103/PhysRevLett.59.381}
-}
-
-@article{FLIERL1999397,
-title = {From Individuals to Aggregations: the Interplay between Behavior and Physics},
-journal = {Journal of Theoretical Biology},
-volume = {196},
-number = {4},
-pages = {397-454},
-year = {1999},
-issn = {0022-5193},
-doi = {https://doi.org/10.1006/jtbi.1998.0842},
-author = {G. Flierl and D. Grünbaum and S. Levin and D. Olson},
-abstract = {This paper analyses the processes by which organisms form groups and how social forces interact with environmental variability and transport. For aquatic organisms, the latter is especially important—will sheared or turbulent flows disrupt organism groups? To analyse such problems, we use individual-based models to study the environmental and social forces leading to grouping. The models are then embedded in turbulent flow fields to gain an understanding of the interplay between the forces acting on the individuals and the transport induced by the fluid motion. Instead of disruption of groups, we find that flows often enhance grouping by increasing the encounter rate among groups and thereby promoting merger into larger groups; the effect breaks down for strong flows. We discuss the transformation of individual-based models into continuum models for the density of organisms. A number of subtle difficulties arise in this process; however, we find that a direct comparison between the individual model and the continuum model is quite favorable. Finally, we examine the dynamics of group statistics and give an example of building an equation for the spatial and temporal variations of the group-size distribution from the individual-based simulations. These studies lay the groundwork for incorporating the effects of grouping into models of the large scale distributions of organisms as well as for examining the evolutionary consequences of group formation.}
-}
-
-@ARTICLE{cucker_smale,
-  author={Cucker, Felipe and Smale, Steve},
-  journal={IEEE Transactions on Automatic Control}, 
-  title={Emergent Behavior in Flocks}, 
-  year={2007},
-  volume={52},
-  number={5},
-  pages={852-862},
-  keywords={Birds;Convergence;Polynomials;Marine animals;Computer simulation;Councils;Mathematics;Gravity;H infinity control;Consensus reaching problem;emergence;flocking},
-  doi={10.1109/TAC.2007.895842}}
-
-@book{sumpter2010collective,
-  title={Collective animal behavior},
-  author={Sumpter, David JT},
-  year={2010},
-  publisher={Princeton University Press}
-}
-
-  </script>
-  <ol class="bib-list"></ol>
-</section>
+  <p>In part 1, we discussed emergence as a property of complex systems and the relationship between individual agent incentives, the environment, and emergent global phenomena. In this post, we will add nuance to this relationship and apply these learnings to the design of multi-agent systems.</p>
+<h2 id="the-role-of-regulation">The role of regulation</h2>
+<p>The models we&rsquo;ve discussed so far describe how agents&rsquo; responses to their environment can lead to the emergence of collective behavior.
+However, any realistic environment changes over time as a result of agents&rsquo; actions: people avoid overcrowded bars when the line gets too long, food sources that were once abundant are exploited and become depleted.
+These simple models overlook an agent&rsquo;s ability to not only respond to but <em>effect change on</em> their environment.</p>
+<p>The mechanism of regulation describes how agents&rsquo; imprints on the environment connect their local experiences to the global state of the system.
+This quote from <em>Collective Animal Behavior</em> (Sumpter, 2010) <a href="#ref-sumpter2010collective" class="citation" data-cite-key="sumpter2010collective">[?]</a> explains this with the example of coffee availability:</p>
+<blockquote>
+<p>Regulation of supply and demand does not require central planning by me or anyone else. I do not have to call down to the café in advance and ask them to switch on the percolator; the cafeteria owner does not have to know when the next boat of coffee beans is coming from South America; and the shipping agent does not need to check that new plants are already in the ground for the next year’s crop. Through a series of local economic interactions I am provided with a regular supply of coffee.</p>
+</blockquote>
+<p>Regulation changes the story of collective behavior in fascinating and important ways.</p>
+<h3 id="passive-vs-active-regulation">Passive vs. active regulation</h3>
+<p>In Section 3, we saw how emergent system-level behavior is affected by changing environmental parameters alone. Now, we&rsquo;ll see the impact to emergent collective behavior of the full feedback cycle: agents&rsquo; actions change the environment, which in turn affects agent actions.</p>
+<p>Let&rsquo;s imagine a swarm of scout honeybees exploiting a flower patch for nectar. Individual bees must decide their next steps only having experienced the availability of nectar in an individual flower.</p>
+<p>In <em>passive</em> regulation, if two or more bees choose the same flower they simply would not return to that flower, concluding that the resource is overcrowded. <em>Active</em> regulation, on the other hand, involves recruitment. In addition to avoiding overcrowded resources, bees assume that an unattended/unexploited flower means excess capacity and will recruit additional bees to the resource.</p>
+<p>We can model both of these situations mathematically to approximate the expected behavior. We first assume that the number of individuals choosing a particular resource is Poisson distributed, i.e.,
+</p>
+$$p_k = \frac{(x_t / n)^k}{k!}e^{-x_t / n}$$<p>
+In the passive regulation paradigm, we can describe the number of individuals visiting a resource $x_t$ through time $t$ as
+</p>
+$$x_{t+1} = \alpha + p_1 n = \alpha + x_t e^{-x_t / n}$$<p>
+where $\alpha$ represents the assumed constant flow of individuals who visit the resource and $n$ is the number of resources (flowers).
+In the active regulation story, we assume individuals who encounter a &ldquo;free&rdquo; flower will recruit $b-1$ additional individuals to exploit it, resulting in $b$ total individuals at the resource:
+</p>
+$$x_{t+1} = b p_1 n = b x_t e^{-x_t / n}$$<p>We can see the evolution of the bee population at this flower patch over time in MAKE PLOT</p>
+<h3 id="regulation-and-externalized-cognition">Regulation and externalized cognition</h3>
+<p>In regulated systems, the environment becomes an external memory store for the system, a communication channel between agents.
+In the coffee example, the cafeteria owner orders more coffee when they&rsquo;re running out, changing the &ldquo;environment&rdquo; for the shipping agent, who then recognizes the presence of higher demand.
+Even more straightforwardly, pheromone trails left by ants act as a physical map for the hive to preserve information about the location and abundance of nearby food sources.</p>
+<ul>
+<li>collective behavior &lt;&gt; parallelized sampling/computation</li>
+</ul>
 
   <div class="time"><time datetime="2026-03-17">2026-03-17&nbsp;</time>
 </div>

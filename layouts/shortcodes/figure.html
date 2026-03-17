@@ -11,10 +11,10 @@
     {{- with $height }} height="{{ . }}"{{ end -}}
   >
   {{- with .Inner }}
-  <figcaption>{{ . }}</figcaption>
+  <figcaption>{{ . | safeHTML }}</figcaption>
   {{- else }}
   {{- with $.Get "caption" }}
-  <figcaption>{{ . | safeHTML }}</figcaption>
+  <figcaption>{{ . | markdownify }}</figcaption>
   {{- end }}
   {{- end }}
 </figure>

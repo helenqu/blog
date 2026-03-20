@@ -571,10 +571,10 @@ MathJax = {
   
 
   
-  <p>We observe emergent behavior in stunningly diverse parts of our world, ranging from collective animal behavior to economic systems. Emergence (as defined by Wikipedia) &ldquo;occurs when a complex entity has properties or behaviors that its parts do not have on their own, and emerge only when they interact in a wider whole&rdquo;. In other words, emergent (or system-level) outcomes can be more than (and different from) the sum of their parts <a href="#ref-anderson1972" class="citation" data-cite-key="anderson1972">[?]</a>. A wide range of system-level outcomes can emerge from a collection of agents following their own, often simple, reward/value functions.</p>
-<p>On one hand, structure can emerge: for example, migratory birds fly in a V formation despite the lack of system-level organization. On the other hand is the emergence of chaos: epitomized by the double pendulum, a composition of simple systems can lead to chaotic behavior. Similarly, agentic systems will inevitably develop emergent system-level outcomes: perhaps cooperation to achieve a human-aligned goal, perhaps cooperation to subvert their intended purpose, or perhaps collapse into complete societal disarray. <strong>As agentic systems gain prominence, I posit that we should learn to design for emergent global behavior the same way that we design individual agent behavior.</strong> To do so, we must first demystify the process of emergence and its connection to individuals&rsquo; actions as well as the agents&rsquo; environment.</p>
+  <p>We observe emergent behavior in stunningly diverse parts of our world, ranging from collective animal behavior to economic systems. Emergence (as defined by <a href="https://en.wikipedia.org/wiki/Emergence">Wikipedia</a>) &ldquo;occurs when a complex entity has properties or behaviors that its parts do not have on their own, and emerge only when they interact in a wider whole&rdquo;. In other words, emergent (or system-level) outcomes are more than (and different from) the sum of their parts <a href="#ref-anderson1972" class="citation" data-cite-key="anderson1972">[?]</a>. A wide range of system-level outcomes can emerge from a collection of agents following their own, often simple, reward/value functions.</p>
+<p>On one hand, structure can emerge: for example, migratory birds fly in a V formation despite the lack of system-level organization. On the other hand is the emergence of chaos: epitomized by the double pendulum, a composition of simple systems can lead to chaotic behavior. Similarly, agentic systems will inevitably develop emergent system-level outcomes: perhaps cooperation to achieve a human-aligned goal, perhaps cooperation to subvert their intended purpose, or perhaps collapse into complete societal disarray. <strong>As agentic systems gain prominence, I posit that we should learn to design for emergent global behavior in the same way we think about designing individual agent behavior.</strong> How do we design for healthy cooperation to emerge? What about alignment? To answer these questions, we must first demystify the process of emergence and its connection to agent actions as well as the agents&rsquo; environment.</p>
 <!-- raw HTML omitted -->
-<p>In this post, we start by seeing complexity and emergence as an intrinsic property of systems, and how complexity can emerge even in the simplest of environments where there are no players at all. We then further our understanding of emergence by observing collective behavior in animals. In the next post, we will clarify the connection to agentic AI systems through multi-agent/mean-field reinforcement learning.</p>
+<p>We begin by exploring how complex behaviors can emerge from the basic architecture of a system, even in the absence of intelligent players. We then explore emergence in systems of intelligent agents, specifically focusing on collective animal behavior. In the next post, we will connect these principles to agentic AI system design and multi-agent/mean-field reinforcement learning.</p>
 <h2 id="self-organization-leads-to-complexity">Self-organization leads to complexity</h2>
 <p>The canonical example of emergent complexity is Conway&rsquo;s Game of Life, a cellular automaton model that evolves deterministically starting from an initial state. The game takes place on an infinite 2D grid where each cell&rsquo;s state at any iteration is a fixed function of the states of its neighbors. Despite the simplicity of the rules and setup, Conway&rsquo;s Game of Life is proven to be a universal Turing machine, and an incredible taxonomy of &ldquo;organisms&rdquo; defined by unique patterns have been observed. This and other cellular automaton models demonstrate that the emergence of complexity in systems occurs independently of the presence of agency or incentive structure.</p>
 <figure>
@@ -590,14 +590,15 @@ Three types of organisms in the Game of Life: A "puffer-type breeder" (red) that
 <figure>
   <img src="/blog/images/edge_of_chaos2.png">
   <figcaption>
-The spectrum of behavior in 1D cellular automata, parameterized by $\lambda$. At small values of $\lambda$, cells die out quickly or fall into repeating patterns. Interesting fractal patterns emerge, then dominate, as $\lambda$ increases. However, randomness and chaos begin to take hold as well, and dominate by $\lambda=0.75$. Adapted from <a href="#ref-langton1990" class="citation" data-cite-key="langton1990">[?]</a>.
+Behavior of 1D cellular automata over time (shown on $y$-axis) as a function of the homogeneity measure, $\lambda$. At small values of $\lambda$, cells die out quickly or fall into repeating patterns. At large $\lambda$, randomness and chaos begin to take hold and eventually dominate. Only in the intermediate $\lambda$ regime (e.g., $\lambda=0.40$) do interesting and nontrivial patterns emerge. Adapted from <a href="#ref-langton1990" class="citation" data-cite-key="langton1990">[?]</a>.
 </figcaption>
 </figure>
 
 
 <h2 id="selfish-intelligent-agents-can-give-rise-to-complex-emergent-behavior">Selfish intelligent agents can give rise to complex emergent behavior</h2>
-<p>The spontaneous emergence of complex group behaviors in animals is an ideal setting in which to study the relationship between system-level and agent-level behavior. In the absence of explicit leadership, birds self-organize to fly in formation, animals travel in herds, ants form long meandering trails to transport food, and fish swim in schools that move as one to adeptly avoid predation.</p>
-<p>We first look at how group herding behavior can emerge purely from selfish incentives. In &ldquo;Geometry of the Selfish Herd&rdquo; (1971), Hamilton <a href="#ref-hamilton1971" class="citation" data-cite-key="hamilton1971">[?]</a> put forth the theory that animals engage in social behavior and herding due to purely selfish, individual incentives. He posits that each animal seeks to reduce its own &ldquo;domain of danger&rdquo;, the physical area for which they are the most likely prey. This is illustrated nicely using a 1D example of frogs sitting around a circular pond, where a water snake emerges at a random location and attacks the closest frog. Each frog can achieve its minimal domain of danger by positioning itself in between other frogs, leading to clustering behavior.</p>
+<p>Biological systems offer a masterclass in multi-agent coordination and emergence in the natural world.
+In the absence of explicit leadership, birds self-organize to fly in formation, animals travel in herds, ants form long meandering trails to transport food, and fish swim in schools that move as one to adeptly avoid predation.</p>
+<p>In fact, these system-level behaviors arise from purely selfish, local incentives. In &ldquo;Geometry of the Selfish Herd&rdquo; (1971), Hamilton <a href="#ref-hamilton1971" class="citation" data-cite-key="hamilton1971">[?]</a> put forth the theory that selfish incentives actually <em>lead</em> animals to engage in social behavior and herding. He posits that each animal seeks to reduce its own &ldquo;domain of danger&rdquo;, the physical area for which they are the most likely prey. He illustrates this nicely through a 1D example of frogs sitting around a circular pond, where a water snake emerges at a random location and attacks the closest frog. Each frog can achieve its minimal domain of danger by positioning itself in between other frogs, leading to clustering behavior.</p>
 <figure>
   <img src="/blog/images/selfish_herd_frogs.png">
   <figcaption>
@@ -606,35 +607,37 @@ Frogs reduce their domain of danger by clustering close to other frogs in Hamilt
 </figure>
 
 
-<p>Reynolds <a href="#ref-reynolds1987" class="citation" data-cite-key="reynolds1987">[?]</a> further demonstrated in the Boids (bird-oids) simulations that flocking behavior in birds can be reproduced by specifying 3 simple rules for each agent&rsquo;s behavior: maintaining (1) reasonable separation between itself and its neighbors, (2) alignment with neighbors&rsquo; headings, and (3) cohesion with its neighbors. Most importantly, just as hypothesized for animal groups, no group-level control mechanism is needed to produce flocking behavior &ndash; it is sufficient to simply specify agent-level behavior and rewards.</p>
+<p>The Boids (bird-oids) simulations <a href="#ref-reynolds1987" class="citation" data-cite-key="reynolds1987">[?]</a> further demonstrated that flocking behavior in birds can be reproduced by specifying 3 simple rules for each agent&rsquo;s behavior: maintaining (1) reasonable separation between itself and its neighbors, (2) alignment with neighbors&rsquo; heading angles, and (3) cohesion with its neighbors. Most importantly, just as hypothesized for animal groups, no group-level control mechanism is needed to produce flocking behavior &ndash; it is sufficient to simply specify agent-level behavior and rewards.</p>
 <h2 id="emergence-of-structure-as-opposed-to-chaos-depends-on-the-environment">Emergence of structure as opposed to chaos depends on the environment</h2>
-<p>A simple model for collective behavior introduced in 1995 by Vicsek, et al. <a href="#ref-vicsek1995" class="citation" data-cite-key="vicsek1995">[?]</a> uncovers a phase transition from random chaotic movement to the emergence of flocking exclusively through altering environmental parameters. The Vicsek model holds for any self-propelled particles (animals, bacteria, etc.) and assumes simply that, at each timestep, each particle will align its heading with its neighbors&rsquo; headings.</p>
-<p>Specifically, each particle $i$ has a position $\xbf_i(t)$ and velocity $\vbf_i(t)$, consisting of velocity value $v$ (assumed global to all particles) and heading $\theta_i(t)$ at time $t$. At each timestep, each particle adjusts its heading and position as follows:
+<p>A simple model for collective behavior introduced in 1995 by Vicsek, et al. <a href="#ref-vicsek1995" class="citation" data-cite-key="vicsek1995">[?]</a> uncovers a phase transition from random chaotic movement to the emergence of flocking exclusively through altering environmental parameters. The Vicsek model holds for any self-propelled particles (animals, bacteria, etc.) and assumes simply that, at each timestep, each particle will align its heading angle with its neighbors&rsquo; headings.</p>
+<p>Specifically, each particle $i$ has a position $\xbf_i(t)$ and velocity $\vbf_i(t)$, where the vector $\vbf_i(t)$ is defined by velocity value $v$ (assumed global to all particles) and heading angle $\theta_i(t)$ at time $t$. At each timestep, each particle adjusts its heading angle and position as follows:
 \begin{align*}
-\theta_i(t+1) &amp;= \langle \theta(t) \rangle_r + \eta_i(t) \cr
+\theta_i(t+1) &amp;= \langle \theta(t) \rangle_{r,i} + \eta_i(t) \cr
 \xbf_i(t+1)   &amp;= \xbf_i(t) + \vbf_i(t) \Delta t
 \end{align*}
-where $\langle \theta(t) \rangle_r$ is the average heading of all neighbors $\theta_j(t)$ in which particle $j$ is within some radius $r$ of particle $i$, and $\eta_i(t) \sim \textrm{Uni}(-\eta, \eta)$ is a randomly chosen noise/temperature factor with amplitude parameter $\eta$.
+where $\langle \theta(t) \rangle_{r,i}$ is the average heading of all neighbors $\theta_j(t)$ where particle $j$ is within some radius $r$ of particle $i$, and $\eta_i(t) \sim \textrm{Uni}(-\eta, \eta)$ is a randomly chosen noise/temperature factor with amplitude parameter $\eta$.
 $\eta$ can be interpreted as noise in the communication channel between particles, or as the temperature parameter in an Ising-style model.
 The key result from Vicsek et al. is that noise values lower than some critical value $\eta_c$ (and choices of particle density $\rho$ greater than critical density $\rho_c$) will induce a phase transition from complete disorder to an ordered state of synchronized collective transport.</p>
 <figure>
   <img src="/blog/images/vicsek.png">
   <figcaption>
-Adapted from <a href="#ref-vicsek1995" class="citation" data-cite-key="vicsek1995">[?]</a>.
+The Vicsek model predicts a phase transition from a disordered state (left) to an ordered state with bulk flow (right) as environmental parameters (density and noise) change. Adapted from <a href="#ref-vicsek1995" class="citation" data-cite-key="vicsek1995">[?]</a>.
 </figcaption>
 </figure>
 
 
 <p>Notably, this phase transition is induced by altering <em>environmental parameters only</em> ($\eta, \rho$), while the incentives/behavior of the particles remains unchanged. More sophisticated models proposed in later work (e.g., <a href="#ref-FLIERL1999397" class="citation" data-cite-key="FLIERL1999397">[?]</a>, <a href="#ref-cucker_smale" class="citation" data-cite-key="cucker_smale">[?]</a>) further bolstered these conclusions. In particular, Cucker &amp; Smale (2007) <a href="#ref-cucker_smale" class="citation" data-cite-key="cucker_smale">[?]</a> proved that, under certain communication conditions (interaction strength vs distance), a system of agents will unconditionally converge to a common collective velocity.</p>
 <hr>
-<p>In this post, we set the scene for understanding emergence in a variety of systems with and without intelligent agents. We saw that</p>
+<p>In this post, we set the scene for understanding emergence in a variety of systems with and without intelligent agents. We saw that:</p>
 <ol>
-<li>Complexity is an intrinsic property of systems, even simple ones with no agents</li>
-<li>Complex emergent behavior can arise from a collection of purely self-interested intelligent agents</li>
-<li>The environment (e.g., number density of agents, noise in the system) determines whether structure or chaos emerges</li>
+<li>Complexity is an intrinsic property of systems, even simple ones with no agents.</li>
+<li>Complex emergent behavior can arise from a collection of purely self-interested intelligent agents.</li>
+<li>The environment (e.g., number density of agents, noise in the system) determines whether structure or chaos emerges.</li>
 </ol>
-<p>In the next post, we&rsquo;ll connect these ideas back to design of multi-agent systems and multi-agent reinforcement learning!
-Thanks for reading and stay tuned for part 2!</p>
+<p>Designing for emergence and the separation of environmental impact/feedback from individual agent rewards is a major departure from the typical discourse on agentic systems and reinforcement learning, and I look forward to delving into this further in the next post.</p>
+<p>Thanks for reading and stay tuned for part 2!</p>
+<hr>
+<p>Shoutout to my draft readers Alex Wang, Tiger Lu, &amp; Soichiro Hattori!!</p>
 <hr>
 <section class="bibliography" data-bib-src="emergence">
   <h2 class="no-counter">References</h2>

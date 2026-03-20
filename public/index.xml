@@ -6,8 +6,22 @@
     <description>Recent content on helen qu</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An Emergence Perspective on Multi-Agent System Design (Part 1)</title>
+      <link>http://localhost:1313/blog/posts/emergence/</link>
+      <pubDate>Tue, 17 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/posts/emergence/</guid>
+      <description>&lt;p&gt;We observe emergent behavior in stunningly diverse parts of our world, ranging from collective animal behavior to economic systems. Emergence (as defined by &lt;a href=&#34;https://en.wikipedia.org/wiki/Emergence&#34;&gt;Wikipedia&lt;/a&gt;) &amp;ldquo;occurs when a complex entity has properties or behaviors that its parts do not have on their own, and emerge only when they interact in a wider whole&amp;rdquo;. In other words, emergent (or system-level) outcomes are more than (and different from) the sum of their parts &lt;a href=&#34;#ref-anderson1972&#34; class=&#34;citation&#34; data-cite-key=&#34;anderson1972&#34;&gt;[?]&lt;/a&gt;. A wide range of system-level outcomes can emerge from a collection of agents following their own, often simple, reward/value functions.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>An Emergence Perspective on Multi-Agent System Design (Part 2)</title>
+      <link>http://localhost:1313/blog/posts/emergence_2/</link>
+      <pubDate>Tue, 17 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/posts/emergence_2/</guid>
+      <description>&lt;p&gt;In part 1, we discussed emergence as a property of complex systems and the relationship between individual agent incentives, the environment, and emergent global phenomena. In this post, we will add nuance to this relationship and apply these learnings to the design of multi-agent systems.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-role-of-regulation&#34;&gt;The role of regulation&lt;/h2&gt;&#xA;&lt;p&gt;The models we&amp;rsquo;ve discussed so far describe how agents&amp;rsquo; responses to their environment can lead to the emergence of collective behavior.&#xA;However, any realistic environment changes over time as a result of agents&amp;rsquo; actions: people avoid overcrowded bars when the line gets too long, food sources that were once abundant are exploited and become depleted.&#xA;These simple models overlook an agent&amp;rsquo;s ability to not only respond to but &lt;em&gt;effect change on&lt;/em&gt; their environment.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>RL&#39;s Deadly Triad Meets Optimization</title>
       <link>http://localhost:1313/blog/posts/deadly_triad/</link>

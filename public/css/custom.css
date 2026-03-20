@@ -125,13 +125,12 @@ h5.no-counter::before {
 
 .bib-title a {
   color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
-  transition: border-color 0.15s ease;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
 }
 
 .bib-title a:hover {
-  border-color: var(--color-link, #2563eb);
+  text-decoration: underline solid;
 }
 
 .bib-journal,
@@ -141,19 +140,19 @@ h5.no-counter::before {
 
 .bib-doi {
   font-size: 0.85em;
-  color: var(--color-text-muted, #6b7280);
+  color: var(--color-text-muted);
   margin-left: 0.5em;
 }
 
 .bib-doi:hover {
-  color: var(--color-link, #2563eb);
+  color: var(--color-text-primary);
 }
 
 /* Back-link from bibliography to citation */
 .bib-backlink {
   margin-left: 0.5em;
   font-size: 0.85em;
-  color: var(--color-text-muted, #6b7280);
+  color: var(--color-text-muted);
   text-decoration: none;
   opacity: 0.6;
   transition: opacity 0.15s ease;
@@ -161,7 +160,7 @@ h5.no-counter::before {
 
 .bib-backlink:hover {
   opacity: 1;
-  color: var(--color-link, #2563eb);
+  color: var(--color-text-primary);
 }
 
 /* ========================================

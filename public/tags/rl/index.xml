@@ -6,8 +6,15 @@
     <description>Recent content in Rl on helen qu</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/tags/rl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An Emergence Perspective on Multi-Agent System Design (Part 2)</title>
+      <link>http://localhost:1313/blog/posts/emergence_2/</link>
+      <pubDate>Tue, 17 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/posts/emergence_2/</guid>
+      <description>&lt;p&gt;In part 1, we discussed emergence as a property of complex systems and the relationship between individual agent incentives, the environment, and emergent global phenomena. In this post, we will add nuance to this relationship and apply these learnings to the design of multi-agent systems.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-role-of-regulation&#34;&gt;The role of regulation&lt;/h2&gt;&#xA;&lt;p&gt;The models we&amp;rsquo;ve discussed so far describe how agents&amp;rsquo; responses to their environment can lead to the emergence of collective behavior.&#xA;However, any realistic environment changes over time as a result of agents&amp;rsquo; actions: people avoid overcrowded bars when the line gets too long, food sources that were once abundant are exploited and become depleted.&#xA;These simple models overlook an agent&amp;rsquo;s ability to not only respond to but &lt;em&gt;effect change on&lt;/em&gt; their environment.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>RL&#39;s Deadly Triad Meets Optimization</title>
       <link>http://localhost:1313/blog/posts/deadly_triad/</link>

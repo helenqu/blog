@@ -464,9 +464,14 @@ blockquote > :last-child {
 }
 
 .toc .toc-content a {
-  text-decoration: none;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
   color: var(--color-text-primary);
   font-size: var(--font-size-small);
+}
+
+.toc .toc-content a:hover {
+  text-decoration: underline solid;
 }
 
 .toc .toc-content ol li {

@@ -248,6 +248,11 @@ h5 > code {
   font-size: var(--font-size-small);
   color: var(--color-text-muted);
   padding: 0 3px;
+  margin-left: -0.25em; /* Tighten spacing between tags */
+}
+
+.terms-list ul li:first-child {
+  margin-left: 0;
 }
 
 /* Path navigation styles */
@@ -275,7 +280,7 @@ h5 > code {
 }
 
 .path-nav li.current {
-  display: block; /* Override flex display */
+  display: flex; /* Keep flex to stay on one line */
   flex: 1 1 0; /* Fill remaining space, can shrink */
   min-width: 0; /* Allow shrinking below content size */
 }
@@ -287,8 +292,8 @@ h5 > code {
 }
 
 .path-nav li.current a {
-  display: block;
-  width: 100%;
+  flex: 1 1 0;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

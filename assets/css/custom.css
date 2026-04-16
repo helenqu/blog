@@ -1,4 +1,13 @@
 /* Custom styles */
+
+/* Back link with dotted underline */
+.terminal-nav .back-link {
+  border-bottom: 1px dotted;
+}
+
+.terminal-nav .back-link:hover {
+  border-bottom: 1px solid;
+}
 .author {
   color: var(--color-text-muted);
   font-style: italic;

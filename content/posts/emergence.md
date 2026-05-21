@@ -3,7 +3,7 @@ title:  "An Emergence Perspective on Multi-Agent System Design (Part 1)"
 author: "Helen Qu"
 date: 2026-04-16
 math: true
-tags: ["rl", "multi-agent", "emergence"]
+tags: ["multi-agent", "emergence"]
 tagline: "what can emergent behavior in the natural world teach us about multi-agent system design?"
 ---
 

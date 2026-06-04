@@ -153,7 +153,7 @@ If you found this post useful, please cite!
   author  = "Qu, Helen",
   journal = "helenqu.com",
   year    = "2026",
-  month   = "April",
+  month   = "June",
   url     = "https://helenqu.com/blog/emergence_3"
 }
 ```

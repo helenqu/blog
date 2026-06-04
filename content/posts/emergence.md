@@ -92,6 +92,18 @@ Designing for emergence and the separation of environmental impact/feedback from
 Thanks for reading and [stay tuned](https://x.com/_helenqu) for part 2!
 
 ---
+If you found this post useful, please cite!
+```
+@article{qu2026emergence,
+  title   = "An Emergence Perspective on Multi-Agent System Design",
+  author  = "Qu, Helen",
+  journal = "helenqu.com",
+  year    = "2026",
+  month   = "April",
+  url     = "https://helenqu.com/blog/emergence"
+}
+```
+---
 
 Shoutout to my draft readers Alex Wang, Tiger Lu, & Soichiro Hattori!!
 

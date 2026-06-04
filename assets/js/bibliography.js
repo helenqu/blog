@@ -67,7 +67,8 @@
   }
 
   /**
-   * Format an author string (Last, First and Last, First -> Last & Last)
+   * Format an author string to "F. Lastname" format
+   * Handles: "Lastname, Firstname" and "Firstname Lastname" formats
    */
   function formatAuthors(authorStr) {
     if (!authorStr) return '';
@@ -75,12 +76,32 @@
     const authors = authorStr.split(/\s+and\s+/i);
     const formatted = authors.map(function(author) {
       author = author.trim();
-      // If "Last, First" format, keep as is but clean up
+      
+      let firstName, lastName;
+      
       if (author.includes(',')) {
+        // "Lastname, Firstname Middle" format
         const parts = author.split(',');
-        return parts[0].trim() + ', ' + parts.slice(1).join(',').trim();
+        lastName = parts[0].trim();
+        firstName = parts.slice(1).join(',').trim();
+      } else {
+        // "Firstname Middle Lastname" format - last word is surname
+        const parts = author.split(/\s+/);
+        if (parts.length === 1) {
+          return parts[0]; // Single name, return as-is
+        }
+        lastName = parts[parts.length - 1];
+        firstName = parts.slice(0, -1).join(' ');
       }
-      return author;
+      
+      // Generate initials from first name(s)
+      const initials = firstName
+        .split(/[\s.-]+/)
+        .filter(function(n) { return n.length > 0; })
+        .map(function(n) { return n.charAt(0).toUpperCase() + '.'; })
+        .join(' ');
+      
+      return initials + ' ' + lastName;
     });
     
     if (formatted.length === 1) return formatted[0];

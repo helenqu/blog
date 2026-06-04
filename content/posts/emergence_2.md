@@ -73,6 +73,18 @@ I argue that there is therefore no better time to understand how to design for s
 Our perspective thus far has come from studying emergence in practice via examples from physics and collective animal behavior. In the next post, we'll turn to game theory for a framework that can illuminate an alternative path forward for AI safety.
 
 ---
+If you found this post useful, please cite!
+```
+@article{qu2026regulation,
+  title   = "Regulation and the Emergent Superintelligence Hypothesis",
+  author  = "Qu, Helen",
+  journal = "helenqu.com",
+  year    = "2026",
+  month   = "May",
+  url     = "https://helenqu.com/blog/emergence_2"
+}
+```
+---
 {{< bibliography src="emergence" >}}
 
 <!-- [The missing piece is: what does it actually mean for an environment to serve as a cognitive substrate? Right now you gesture at the Extended Mind Hypothesis but don't cash it out in terms of what it requires from the environment itself. Some questions worth addressing:

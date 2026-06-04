@@ -8,6 +8,128 @@
   {{- $staticPath := printf "static/bibliography/%s.bib" $src -}}
   {{- $bibContent = readFile $staticPath -}}
 {{- end -}}
+
+{{/* Convert LaTeX special characters to Unicode */}}
+{{/* Acute accent: \'{x} or {\'x} */}}
+{{- $bibContent = replaceRE `\{\\'a\}` "á" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'e\}` "é" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'i\}` "í" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'o\}` "ó" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'u\}` "ú" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'A\}` "Á" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'E\}` "É" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'I\}` "Í" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'O\}` "Ó" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\'U\}` "Ú" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{a\}` "á" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{e\}` "é" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{i\}` "í" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{o\}` "ó" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{u\}` "ú" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{A\}` "Á" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{E\}` "É" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{I\}` "Í" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{O\}` "Ó" $bibContent -}}
+{{- $bibContent = replaceRE `\\'\{U\}` "Ú" $bibContent -}}
+
+{{/* Caron/háček: \v{x} or {\v{x}} */}}
+{{- $bibContent = replaceRE `\{\\v\{c\}\}` "č" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{s\}\}` "š" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{z\}\}` "ž" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{r\}\}` "ř" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{e\}\}` "ě" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{n\}\}` "ň" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{C\}\}` "Č" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{S\}\}` "Š" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{Z\}\}` "Ž" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{R\}\}` "Ř" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{E\}\}` "Ě" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\v\{N\}\}` "Ň" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{c\}` "č" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{s\}` "š" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{z\}` "ž" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{r\}` "ř" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{e\}` "ě" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{n\}` "ň" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{C\}` "Č" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{S\}` "Š" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{Z\}` "Ž" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{R\}` "Ř" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{E\}` "Ě" $bibContent -}}
+{{- $bibContent = replaceRE `\\v\{N\}` "Ň" $bibContent -}}
+
+{{/* Grave accent: \`{x} or {\`x} */}}
+{{- $bibContent = replaceRE "\\{\\\\`a\\}" "à" $bibContent -}}
+{{- $bibContent = replaceRE "\\{\\\\`e\\}" "è" $bibContent -}}
+{{- $bibContent = replaceRE "\\{\\\\`i\\}" "ì" $bibContent -}}
+{{- $bibContent = replaceRE "\\{\\\\`o\\}" "ò" $bibContent -}}
+{{- $bibContent = replaceRE "\\{\\\\`u\\}" "ù" $bibContent -}}
+{{- $bibContent = replaceRE "\\\\`\\{a\\}" "à" $bibContent -}}
+{{- $bibContent = replaceRE "\\\\`\\{e\\}" "è" $bibContent -}}
+{{- $bibContent = replaceRE "\\\\`\\{i\\}" "ì" $bibContent -}}
+{{- $bibContent = replaceRE "\\\\`\\{o\\}" "ò" $bibContent -}}
+{{- $bibContent = replaceRE "\\\\`\\{u\\}" "ù" $bibContent -}}
+
+{{/* Umlaut: \"{x} or {\"x} */}}
+{{- $bibContent = replaceRE `\{\\"a\}` "ä" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\"e\}` "ë" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\"i\}` "ï" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\"o\}` "ö" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\"u\}` "ü" $bibContent -}}
+{{- $bibContent = replaceRE `\\"\{a\}` "ä" $bibContent -}}
+{{- $bibContent = replaceRE `\\"\{e\}` "ë" $bibContent -}}
+{{- $bibContent = replaceRE `\\"\{i\}` "ï" $bibContent -}}
+{{- $bibContent = replaceRE `\\"\{o\}` "ö" $bibContent -}}
+{{- $bibContent = replaceRE `\\"\{u\}` "ü" $bibContent -}}
+
+{{/* Circumflex: \^{x} or {\^x} */}}
+{{- $bibContent = replaceRE `\{\\\^a\}` "â" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\\^e\}` "ê" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\\^i\}` "î" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\\^o\}` "ô" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\\^u\}` "û" $bibContent -}}
+{{- $bibContent = replaceRE `\\\^\{a\}` "â" $bibContent -}}
+{{- $bibContent = replaceRE `\\\^\{e\}` "ê" $bibContent -}}
+{{- $bibContent = replaceRE `\\\^\{i\}` "î" $bibContent -}}
+{{- $bibContent = replaceRE `\\\^\{o\}` "ô" $bibContent -}}
+{{- $bibContent = replaceRE `\\\^\{u\}` "û" $bibContent -}}
+
+{{/* Tilde: \~{x} or {\~x} */}}
+{{- $bibContent = replaceRE `\{\\~a\}` "ã" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\~n\}` "ñ" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\~o\}` "õ" $bibContent -}}
+{{- $bibContent = replaceRE `\\~\{a\}` "ã" $bibContent -}}
+{{- $bibContent = replaceRE `\\~\{n\}` "ñ" $bibContent -}}
+{{- $bibContent = replaceRE `\\~\{o\}` "õ" $bibContent -}}
+
+{{/* Cedilla: \c{x} or {\c{x}} */}}
+{{- $bibContent = replaceRE `\{\\c\{c\}\}` "ç" $bibContent -}}
+{{- $bibContent = replaceRE `\{\\c\{C\}\}` "Ç" $bibContent -}}
+{{- $bibContent = replaceRE `\\c\{c\}` "ç" $bibContent -}}
+{{- $bibContent = replaceRE `\\c\{C\}` "Ç" $bibContent -}}
+
+{{/* Double acute (Hungarian): \H{x} */}}
+{{- $bibContent = replaceRE `\\H\{o\}` "ő" $bibContent -}}
+{{- $bibContent = replaceRE `\\H\{u\}` "ű" $bibContent -}}
+{{- $bibContent = replaceRE `\\H\{O\}` "Ő" $bibContent -}}
+{{- $bibContent = replaceRE `\\H\{U\}` "Ű" $bibContent -}}
+
+{{/* Ring above: \r{x} */}}
+{{- $bibContent = replaceRE `\\r\{a\}` "å" $bibContent -}}
+{{- $bibContent = replaceRE `\\r\{A\}` "Å" $bibContent -}}
+
+{{/* Special characters */}}
+{{- $bibContent = replaceRE `\\ss\{\}` "ß" $bibContent -}}
+{{- $bibContent = replaceRE `\\ss` "ß" $bibContent -}}
+{{- $bibContent = replaceRE `\\o\{\}` "ø" $bibContent -}}
+{{- $bibContent = replaceRE `\\O\{\}` "Ø" $bibContent -}}
+{{- $bibContent = replaceRE `\\aa\{\}` "å" $bibContent -}}
+{{- $bibContent = replaceRE `\\AA\{\}` "Å" $bibContent -}}
+{{- $bibContent = replaceRE `\\ae\{\}` "æ" $bibContent -}}
+{{- $bibContent = replaceRE `\\AE\{\}` "Æ" $bibContent -}}
+{{- $bibContent = replaceRE `\\oe\{\}` "œ" $bibContent -}}
+{{- $bibContent = replaceRE `\\OE\{\}` "Œ" $bibContent -}}
+
 <section class="bibliography" data-bib-src="{{ $src }}">
   <h2 class="no-counter">References</h2>
   <script type="text/bibtex" id="bibtex-data-{{ $src }}">

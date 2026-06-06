@@ -3,14 +3,12 @@ title:  "Mechanism Design for AI Safety (Emergence Part 3)"
 author: "Helen Qu"
 date: 2026-06-04
 math: true
-_build:
-  list: false
 tags: ["ai-safety", "multi-agent", "emergence"]
 tagline: "how can we design for emergent aligned outcomes?"
 ---
 
-We've seen in previous posts how [complex system-level emergent behavior can arise in multi-agent systems](https://helenqu.com/blog/posts/emergence/), and how [cognition-like behavior can emerge from environmental feedback and regulation](https://helenqu.com/blog/posts/emergence_2/).
-I concluded in the [previous post](https://helenqu.com/blog/posts/emergence_2/) that superintelligence is arguably more likely to emerge from a multi-agent system as opposed to in a single God-like superintelligent model, what I called the **emergent superintelligence hypothesis**.
+In previous posts, we've seen how [complex emergent behavior can arise in multi-agent systems](https://helenqu.com/blog/posts/emergence/), and how [distributed cognition can emerge from environmental feedback](https://helenqu.com/blog/posts/emergence_2/).
+This led me to [conclude](https://helenqu.com/blog/posts/emergence_2/) that superintelligence is arguably more likely to emerge from a multi-agent system as opposed to in a single God-like superintelligent model, what I called the **emergent superintelligence hypothesis**.
 Among other things, this has important implications for the AI safety landscape, namely placing more emphasis on designing for alignment of the *collective* as opposed to individual agents. 
 
 In this post, we'll discuss the motivations for this perspective on AI safety, and how the field of mechanism design can provide a path forward.
@@ -18,7 +16,7 @@ In this post, we'll discuss the motivations for this perspective on AI safety, a
 ## Individual agent alignment is not sufficient
 
 The vast majority of work in AI safety thus far has focused on individually training aligned agents and developing interpretability methods to understand and prevent subversive behavior.
-However, we will soon deploy multi-agent systems in less and less constrained environments, giving these systems increasingly more freedom and open-ended tasks.
+However, we will soon deploy multi-agent systems in increasingly unconstrained environments, giving these systems more freedom and open-ended tasks.
 So, regardless of how convincing the emergent superintelligence hypothesis is, I argue that the alignment of the *collective* cannot be ignored.
 The most immediate question this raises is: in the hypothetical world in which individual agent alignment is solved, is a collective of perfectly aligned agents guaranteed to be aligned?
 
@@ -72,7 +70,7 @@ mechanism design is already a theory of designed emergence — it's the study of
 
 <!-- Investigating the building blocks of a mechanism design (MD) approach to multi-agent system alignment will help clarify the landscape and identify open questions. -->
 
-### Classical MD setting
+### Classical setting
 
 From {{< cite nisan2007algorithmic >}}, classical mechanism design (MD) assumes the following setting:
 - There are $n$ players in the game.
